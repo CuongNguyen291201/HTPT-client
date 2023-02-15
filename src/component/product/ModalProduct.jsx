@@ -115,59 +115,33 @@ const ModalAppSeo = () => {
                 >
                     <Row gutter={[8, 8]}>
                         <Col span={24} md={12} sm={24}>
-                            <Form.Item name="seoTitle" label="Seo Title" {...layout}>
+                            <Form.Item name="name" label="Name" {...layout}>
                                 <Input />
                             </Form.Item>
                         </Col>
                         <Col span={24} md={12} sm={24}>
-                            <Form.Item name="slug" label="Slug" {...layout}>
+                            <Form.Item name="price" label="Price" {...layout}>
                                 <Input />
                             </Form.Item>
                         </Col>
                         <Col span={24} md={12} sm={24}>
-                            <Form.Item name="descriptionSeo" label="Desciption Seo" {...layout}>
+                            <Form.Item name="description" label="Desciption" {...layout}>
                                 <Input />
                             </Form.Item>
                         </Col>
                         <Col span={24} md={12} sm={24}>
-                            <Form.Item name="keyword" label="Keyword" {...layout}>
+                            <Form.Item name="shortdesc" label="Short Description" {...layout}>
                                 <Input />
                             </Form.Item>
                         </Col>
                         <Col span={24} md={12} sm={24}>
-                            <Form.Item name="titleH1" label="Title H1" {...layout}>
+                            <Form.Item name="more" label="More" {...layout}>
                                 <Input />
                             </Form.Item>
                         </Col>
-                        {/* <Col span={24} md={12} sm={24}>
-                            <Form.Item name="headerScript" label="Header Script">
-                                <Input />
-                            </Form.Item>
-                        </Col>
-                        <Col span={24} md={12} sm={24}>
-                            <Form.Item name="bodyScript" label="Body Script">
-                                <Input />
-                            </Form.Item>
-                        </Col> */}
-                        <Col span={24} md={12} sm={24}>
-                            <Form.Item name="metaRobot" label="Meta Robot" {...layout}>
-                                <Select>
-                                    <Select.Option value={META_ROBOT_NO_INDEX_NO_FOLLOW}>noindex, nofollow</Select.Option>
-                                    <Select.Option value={META_ROBOT_INDEX_FOLLOW}>index, follow</Select.Option>
-                                </Select>
-                            </Form.Item>
-                        </Col>
-                        <Col span={24} md={12} sm={24}>
-                            <Form.Item name="appId" label="App Id" {...layout}>
-                                <Select>
-                                    {appSettings && appSettings.map((item) => (
-                                        <Select.Option key={item._id} value={item._id}>{item.appName}</Select.Option>
-                                    ))}
-                                </Select>
-                            </Form.Item>
-                        </Col>
+
                     </Row>
-                    <Row gutter={[8, 8]} style={{}}>
+                    {/* <Row gutter={[8, 8]} style={{}}>
                         <Col span={24} md={12} sm={24}>
                             <Form.Item label="Image Sharing" {...layout}>
                                 <Image src={imageSharing} width={200} />
@@ -183,10 +157,14 @@ const ModalAppSeo = () => {
                                 />
                             </Form.Item>
                         </Col>
-                    </Row>
+                    </Row> */}
                     
-                    <Button htmlType="submit" type="primary">
+                    {/* <Button htmlType="submit" type="primary">
                         {isUpdate ? "Update" : "Create"}
+                    </Button> */}
+
+                    <Button htmlType="submit" type="primary">
+                        Create
                     </Button>
                 </Form>
             </Modal>
