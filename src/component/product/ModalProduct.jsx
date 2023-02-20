@@ -1,22 +1,20 @@
 import { Button, Col, Form, Image, Input, Modal, notification, Row, Select } from "antd"
 import { useEffect, useState } from "react";
-import UploadImage from "../../commons/UploadImage";
 import { useDispatch, useSelector } from 'react-redux';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { showModal } from "../../redux/reducers/product.slice";
 
-
-const ModalAppSeo = () => {
+const ModalProduct = () => {
     const [form] = Form.useForm();
     const [imageSharing, setImageSharing] = useState("");
     const [summary, setSummary] = useState("");
     const [content, setContent] = useState("");
     const [key, setKey] = useState(Math.random());
 
-    // const appSettings = useSelector((state) => state.appSettingReducer.appSettings)
-    // const isVisible = useSelector((state) => state.webSeoReducer.showModal)
-    // const isUpdate = useSelector((state) => state.webSeoReducer.isUpdate)
-    // const currentWebSeo = useSelector((state) => state.webSeoReducer.currentWebSeo)
-    // const dispatch = useDispatch()
+    const open = useSelector((state) => state.productReducer.showModal)
+    const isUpdate = useSelector((state) => state.productReducer.isUpdate)
+    // const currentWebSeo = useSelector((state) => state.productReducer.currentWebSeo)
+    const dispatch = useDispatch()
 
     // useEffect(() => {
     //     dispatch(fetchAppSettings());
@@ -45,6 +43,7 @@ const ModalAppSeo = () => {
     // }, [currentWebSeo])
 
     const onHandleSubmit = (values) => {
+        console.log('values', values)
         // const webSeo = {
         //     appId: values.appId,
         //     descriptionSeo: values?.descriptionSeo,
@@ -96,15 +95,15 @@ const ModalAppSeo = () => {
     return (
         <>
             <Modal
-                title="Web seo"
-                visible={false}
+                title="Product"
+                open={open}
                 footer={null}
                 onCancel={() => {
-                    isUpdate ? dispatch(showModal({ showModal: false, isUpdate: false, currentWebSeo: {} })) : dispatch(showModal({ showModal: false }));
-                    setContent('');
-                    setSummary('');
-                    setImageSharing('');
-                    setKey(Math.random());
+                    isUpdate ? dispatch(showModal({ showModal: false, isUpdate: false, currentProduct: {} })) : dispatch(showModal({ showModal: false }));
+                    // setContent('');
+                    // setSummary('');
+                    // setImageSharing('');
+                    // setKey(Math.random());
                     form.resetFields();
                 }}
                 width="80%"
@@ -125,17 +124,17 @@ const ModalAppSeo = () => {
                             </Form.Item>
                         </Col>
                         <Col span={24} md={12} sm={24}>
-                            <Form.Item name="description" label="Desciption" {...layout}>
+                            <Form.Item name="desc" label="Desciption" {...layout}>
                                 <Input />
                             </Form.Item>
                         </Col>
                         <Col span={24} md={12} sm={24}>
-                            <Form.Item name="shortdesc" label="Short Description" {...layout}>
+                            <Form.Item name="shortDesc" label="Short Description" {...layout}>
                                 <Input />
                             </Form.Item>
                         </Col>
                         <Col span={24} md={12} sm={24}>
-                            <Form.Item name="more" label="More" {...layout}>
+                            <Form.Item name="image" label="Image" {...layout}>
                                 <Input />
                             </Form.Item>
                         </Col>
@@ -172,4 +171,4 @@ const ModalAppSeo = () => {
     )
 }
 
-export default ModalAppSeo
+export default ModalProduct

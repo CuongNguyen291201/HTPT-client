@@ -1,23 +1,31 @@
-export const apiGetWebSeo = async () => {
-    const { data, status } = await GET_API("/get-all-web-seos");
+import { POST_API } from "../utils/method";
+
+export const apiGetProducts = async () => {
+    const { data, status } = await POST_API("get-products", {});
     if (status !== 200) return [];
     return data;
 }
 
-export const apiCreateWebSeo = async (args) => {
-    const { data, status } = await POST_API("/submit-web-seo", args);
+export const apiGetProduct = async (_id) => {
+    const { data, status } = await POST_API("get-product", { _id });
     if (status !== 200) return [];
     return data;
 }
 
-export const apiUpdateWebSeo = async (args) => {
-    const { data, status } = await POST_API("/update-web-seo", { webSeo: args });
+export const apiCreateProduct = async (product) => {
+    const { data, status } = await POST_API("create-product", { product: product });
     if (status !== 200) return [];
     return data;
 }
 
-export const apiDeleteWebSeo = async (_id) => {
-    const { data, status } = await POST_API("/delete-web-seo", { _id });
+export const apiUpdateProduct = async (_id, product) => {
+    const { data, status } = await POST_API("update-product",{ _id: _id, product: product } );
+    if (status !== 200) return [];
+    return data;
+}
+
+export const apiDeleteProduct = async (_id) => {
+    const { data, status } = await POST_API("delete-product", { _id });
     if (status !== 200) return [];
     return data;
 }

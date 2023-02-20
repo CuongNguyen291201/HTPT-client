@@ -1,6 +1,7 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { apiCreateProduct, apiDeleteProduct, apiGetProducts, apiUpdateProduct } from "../../api/productApi";
 
-const initWebSeoState = {
+const initProductState = {
     products: [],
     mapWebSeo: {},
     currentProduct: {},
@@ -8,47 +9,47 @@ const initWebSeoState = {
     isUpdate: false
 }
 
-export const fetchWebSeo = createAsyncThunk("webSeo/fetchWebSeo", async () => {
-    const webSeo = await apiGetWebSeo();
-    return webSeo;
+export const fetchProduct = createAsyncThunk("product/fetchProduct", async () => {
+    const product = await apiGetProducts();
+    return product;
 })
 
-export const createWebSeo = createAsyncThunk("webSeo/createWebSeo", async (args) => {
-    const { webSeo, showModal } = args;
-    const _webSeo = await apiCreateWebSeo(webSeo);
+export const createProduct = createAsyncThunk("product/createProduct", async (args) => {
+    const { product, showModal } = args;
+    const _product = await apiCreateProduct(product);
     return {
-        _webSeo,
+        _product,
         showModal
     };
 })
 
-export const updateWebSeo = createAsyncThunk("webSeo/updateWebSeo", async (args) => {
-    const { webSeo, showModal } = args;
-    const webSeoUpdate = await apiUpdateWebSeo(webSeo);
+export const updateProduct = createAsyncThunk("product/updateProduct", async (args) => {
+    const { _id, product, showModal } = args;
+    const productUpdate = await apiUpdateProduct(_id, product);
     return {
-        webSeoUpdate,
+        productUpdate,
         showModal
     };
 })
 
-export const deleteWebSeo = createAsyncThunk("webSeo/deleteWebSeo", async (_id) => {
-    await apiDeleteWebSeo(_id);
+export const deleteProduct = createAsyncThunk("product/deleteProduct", async (_id) => {
+    await apiDeleteProduct(_id);
     return _id;
 })
 
-export const webSeoSlice = createSlice({
-    name: "webSeo",
-    initialState: initWebSeoState,
+export const productSlice = createSlice({
+    name: "product",
+    initialState: initProductState,
     reducers: {
         showModal: (state, action) => {
             state.showModal = action.payload.showModal
             state.isUpdate = action.payload.isUpdate
-            state.currentWebSeo = action.payload.currentWebSeo
+            state.currentProduct = action.payload.currentProduct
         }
     },
     extraReducers: (builder) => {
         builder
-            .addCase(fetchWebSeo.fulfilled, (state, action) => {
+            .addCase(fetchProduct.fulfilled, (state, action) => {
                 state.webSeo = action.payload
                 state.mapWebSeo = action.payload.reduce((map, item) => {
                     const { appId } = item;
@@ -56,7 +57,7 @@ export const webSeoSlice = createSlice({
                     return map;
                 }, {})
             })
-            .addCase(createWebSeo.fulfilled, (state, action) => {
+            .addCase(createProduct.fulfilled, (state, action) => {
                 const newWebSeo = [...state.webSeo, action.payload._webSeo]
                 state.webSeo = newWebSeo
                 state.showModal = action.payload.showModal
@@ -66,7 +67,7 @@ export const webSeoSlice = createSlice({
                     return map;
                 }, {})
             })
-            .addCase(updateWebSeo.fulfilled, (state, action) => {
+            .addCase(updateProduct.fulfilled, (state, action) => {
                 const newWebSeo = state.webSeo.map(item => {
                     if (item._id === action.payload.webSeoUpdate._id) return action.payload.webSeoUpdate;
                     return item;
@@ -79,7 +80,7 @@ export const webSeoSlice = createSlice({
                     return map;
                 }, {})
             })
-            .addCase(deleteWebSeo.fulfilled, (state, action) => {
+            .addCase(deleteProduct.fulfilled, (state, action) => {
                 const newWebSeo = state.webSeo.filter(item => item._id !== action.payload)
                 state.webSeo = newWebSeo
                 state.mapWebSeo = newWebSeo.reduce((map, item) => {
@@ -91,6 +92,6 @@ export const webSeoSlice = createSlice({
     }
 });
 
-export const { showModal } = webSeoSlice.actions;
-export default webSeoSlice.reducer;
+export const { showModal } = productSlice.actions;
+export default productSlice.reducer;
 

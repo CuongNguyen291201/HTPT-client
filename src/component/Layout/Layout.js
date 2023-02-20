@@ -5,9 +5,12 @@ import {
 import { Button, Menu, Row, Col } from 'antd';
 import { useMemo, useState } from 'react';
 import { getItem } from '../../helper/getItemMenu';
+import { useNavigate } from "react-router-dom";
 
-const Layout = () => {
+
+const Layout = (props) => {
     const [collapsed, setCollapsed] = useState(false);
+    const navigate = useNavigate();
     const items = useMemo(() =>
         [
             getItem('Product', 'product', <PieChartOutlined />),
@@ -19,7 +22,7 @@ const Layout = () => {
     const toggleCollapsed = () => setCollapsed(!collapsed);
 
     const handleTab = (e) => {
-        console.log('e', e)
+        navigate(`/admin/${e.key}`);
     }
     return (
         <>
@@ -44,8 +47,7 @@ const Layout = () => {
                 </Col>
 
                 <Col span={collapsed ? 22 : 20} style={{ padding: "unset" }}>
-
-                    hello
+                    {props.children}
                 </Col>
             </Row>
         </>
