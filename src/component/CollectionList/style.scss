@@ -1,0 +1,17 @@
+.with-layout {
+    width: 1200px;
+    margin: 0 auto;
+    padding: 50px 0;
+
+    @media (max-width: 768.98px) {
+        width: 100%;
+    }
+
+    .title-section {
+        font-size: 36px;
+        font-weight: 600;
+        text-align: center;
+    }
+
+
+}

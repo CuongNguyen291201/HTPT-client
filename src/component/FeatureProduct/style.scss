@@ -1,0 +1,9 @@
+.with-layout {
+    width: 1200px;
+    margin: 0 auto;
+    padding: 50px 0;
+
+    @media (max-width: 768.98px) {
+        width: 100%;
+    }
+}

@@ -1,21 +1,19 @@
 import React from 'react'
 import guitar from '../../media/guitar.jpg'
-import person from '../../media/person.jpg'
-import background from '../../media/guitar.jpg'
-import { Card, Col, Layout, Row } from 'antd'
+import { Card, Col, Row } from 'antd'
+import './style.scss'
 
 const { Meta } = Card;
 
 const CollectionList = () => {
     return (
-        <Layout className="boxed-width">
-            <Row className="" gutter={[24, 24]}>
-                {[0, 1, 2].map(item => (
-                    <Col className="centered-col">
-                        <a
-                            href="#"
-                            key={item.id}
-                        >
+        <div className="with-layout">
+            <p className="title-section">Collections</p>
+
+            <Row className="" justify="space-between" gutter={[8, 8]}>
+                {[1, 2, 3].map(item => (
+                    <Col className="centered-col" key={item} sm={24} md={12} lg={7}>
+                        <a href="#">
                             <Card
                                 className="category-item-card"
                                 hoverable
@@ -29,7 +27,7 @@ const CollectionList = () => {
                     </Col>
                 ))}
             </Row>
-        </Layout>
+        </div>
     )
 }
 
