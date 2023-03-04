@@ -1,0 +1,14 @@
+.width-layout {
+    width: 750px;
+    margin: 0 auto;
+    padding: 100px 0;
+    img {
+        width: 291px;
+        height: 291px;
+        object-fit: cover;
+    }
+    @media (max-width: 768.98px) {
+        width: 100%;
+        padding: 45px 0;
+    }
+}
