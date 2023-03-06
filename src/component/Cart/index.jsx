@@ -1,3 +1,4 @@
+import { Col, Row } from 'antd'
 import React from 'react'
 import MainLayout from '../MainLayout/MainLayout'
 import './style.scss'
@@ -5,8 +6,15 @@ import './style.scss'
 const Cart = () => {
     return (
         <MainLayout>
+            <Row justify="space-between" gutter={[8, 8]}>
+                <Col sm={24} lg={12}>
+                    
+                </Col>
 
-            <div>Cart</div>
+                <Col sm={24} lg={12}>
+
+                </Col>
+            </Row>
         </MainLayout>
     )
 }

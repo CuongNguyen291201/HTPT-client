@@ -1,25 +1,20 @@
 import { InputNumber } from 'antd'
 import React from 'react'
 import { DeleteOutlined } from '@ant-design/icons';
+import guitar from '../../media/guitar.jpg'
+
 
 const CartItem = () => {
     return (
         <div>
             <div className="featured-pp">
-                <a href="/">{featured_image && <img src={featured_image} />}</a>
+                <a href="#"><img src={guitar} /></a>
             </div>
             <div className="description">
-                <a>
-                    <Title level={4}>{name}</Title>
+                <a href="#">
+                    <Title level={4}>Premium Quality</Title>
                     <div>
-                        <Text
-                            type="secondary"
-                            delete={on_sale}
-                            className={`${on_sale ? 'on_sale' : 'regular'}`}
-                        >
-                            ${regular_price}
-                        </Text>
-                        {on_sale && <Text style={{ marginLeft: 10 }}>${sale_price}</Text>}
+                        <Text type="secondary" className='regular'>$12</Text>
                     </div>
                 </a>
             </div>
