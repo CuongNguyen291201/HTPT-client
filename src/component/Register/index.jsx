@@ -1,11 +1,16 @@
 import React from 'react'
 import { Form, Input, Button } from 'antd';
-import { UserOutlined, LockOutlined, MobileOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { UserOutlined, LockOutlined, MobileOutlined, EnvironmentOutlined, MailOutlined  } from '@ant-design/icons';
 import './style.scss'
+import { useDispatch } from 'react-redux';
+import { userRegister } from '../../redux/reducers/user.slice';
 
 const Register = () => {
-    const onFinish = values => {
+    const dispatch = useDispatch();
+
+    const onFinish = (values) => {
         console.log('Received values of form: ', values);
+        dispatch(userRegister(values));
     };
 
     return (
@@ -19,7 +24,7 @@ const Register = () => {
                 onFinish={onFinish}
             >
                 <Form.Item
-                    name="username"
+                    name="name"
                     rules={[
                         {
                             required: true,
@@ -28,6 +33,17 @@ const Register = () => {
                     ]}
                 >
                     <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+                </Form.Item>
+                <Form.Item
+                    name="email"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please input your Email!',
+                        },
+                    ]}
+                >
+                    <Input prefix={<MailOutlined className="site-form-item-icon" />} placeholder="Email" />
                 </Form.Item>
                 <Form.Item
                     name="address"
