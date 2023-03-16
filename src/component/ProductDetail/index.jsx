@@ -3,11 +3,16 @@ import React from 'react'
 import MainLayout from '../MainLayout/MainLayout'
 import person from '../../media/person.jpg'
 import './style.scss'
+import { useSelector } from 'react-redux'
 
 const { Text } = Typography;
 const { Item } = Descriptions;
 
 const ProductDetail = () => {
+    const { name, email } = useSelector((state) => state.userReducer)
+
+    console.log('name', name)
+
     return (
         <MainLayout>
             <div className="width-layout">

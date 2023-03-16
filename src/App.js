@@ -8,8 +8,21 @@ import ProductDetail from './component/ProductDetail';
 import Cart from './component/Cart';
 import Login from './component/Login';
 import Register from './component/Register';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { userRefeshToken } from './redux/reducers/user.slice';
+import Cookies from 'js-cookie';
 
 function App() {
+    const dispatch = useDispatch();
+    const { name, email, access_token, refresh_token } = useSelector((state) => state.userReducer)
+
+    useEffect(() => {
+        let _token = refresh_token || Cookies.get('token');
+        dispatch(userRefeshToken(_token));
+    }, [])
+
+
     return (
         <>
             <Routes>

@@ -15,8 +15,15 @@ export const POST_API = async (url, reqBody) => {
     return { status, data };
 };
 
-export const GET_API = async (url) => {
-    let res = await fetch(`http://localhost:5000/api/${url}`);
+export const GET_API = async (url, body) => {
+    let res = await fetch(`http://localhost:5000/api/${url}`, {
+        method: "GET",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+    });
     let data = await res.json();
     let status = res.status;
     return { status, data };

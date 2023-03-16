@@ -1,4 +1,4 @@
-import { POST_API } from "../utils/method";
+import { GET_API, POST_API } from "../utils/method";
 
 export const apiUserRegister = async (user) => {
     const { data, status } = await POST_API("register", { user: user });
@@ -16,4 +16,10 @@ export const apiUserLogout = async () => {
     const { data, status } = await POST_API("logout", {});
     if (status !== 200) return false;
     return data
+}
+
+export const apiUserRefreshToken = async (token) => {
+    const { data, status } = await POST_API("refresh_token", { token: token });
+    if (status !== 200) return {};
+    return data;
 }

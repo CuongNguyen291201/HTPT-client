@@ -20,7 +20,7 @@ const FeatureProduct = () => {
                                 }
                             >
                                 <Row>
-                                    <h2 style={{ textAlign: 'center' }} strong>
+                                    <h2 style={{ textAlign: 'center' }}>
                                         {item}
                                     </h2>
                                     <Button style={{ marginLeft: 10 }}>Sale!</Button>
