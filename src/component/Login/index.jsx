@@ -2,10 +2,21 @@ import React from 'react'
 import { Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import './style.scss'
+import Cookies from 'js-cookie';
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../../redux/reducers/user.slice';
+import { apiUserLogin } from '../../api/userApi';
+import { useNavigate } from 'react-router';
 
 const Login = () => {
-    const onFinish = values => {
-        console.log('Received values of form: ', values);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const onFinish = async (values) => {
+        const { _user, access_token, refresh_token } = await apiUserLogin(values);
+        Cookies.set('token', refresh_token, { expires: 7 });
+        dispatch(loginUser({ _user, access_token, refresh_token }))
+        navigate('/')
     };
 
     return (

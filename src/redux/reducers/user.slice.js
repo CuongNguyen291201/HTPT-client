@@ -13,19 +13,6 @@ const initUserState = {
     refresh_token: ""
 }
 
-export const userRegister = createAsyncThunk("user/userRegister", async (user) => {
-    const { _user, access_token } = await apiUserRegister(user);
-    return {
-        _user,
-        access_token
-    };
-});
-
-export const userLogin = createAsyncThunk("user/userLogin", async (user) => {
-    const { _user, access_token } = await apiUserLogin(user);
-    return { _user, access_token };
-});
-
 export const userRefeshToken = createAsyncThunk("user/userRefeshToken", async (token) => {
     const { _user, access_token, refresh_token } = await apiUserRefreshToken(token);
     return { _user, access_token, refresh_token };
@@ -51,25 +38,24 @@ export const userSlice = createSlice({
             state.cart = _user?.cart;
             state.access_token = access_token
             state.refresh_token = refresh_token
+        },
+        loginUser: (state, action) => {
+            let { _user, access_token, refresh_token } = action.payload;
+            state.name = _user?.name;
+            state.address = _user?.address;
+            state.email = _user?.email;
+            state.phone = _user?.phone;
+            state.avatar = _user?.avatar;
+            state.role = _user?.role;
+            state.cart = _user?.cart;
+            state.access_token = access_token
+            state.refresh_token = refresh_token
         }
     },
     extraReducers: (builder) => {
         builder
-            .addCase(userRegister.fulfilled, (state, action) => {
-                let { _user, access_token } = action.payload;
-                console.log('_user', _user)
-                state.name = _user?.name;
-                state.address = _user?.address;
-                state.email = _user?.email;
-                state.phone = _user?.phone;
-                state.avatar = _user?.avatar;
-                state.role = _user?.role;
-                state.cart = _user?.cart;
-            })
             .addCase(userRefeshToken.fulfilled, (state, action) => {
                 let { _user, access_token, refresh_token } = action.payload;
-
-                console.log('user', _user)
                 state.name = _user?.name;
                 state.address = _user?.address;
                 state.email = _user?.email;
@@ -79,10 +65,9 @@ export const userSlice = createSlice({
                 state.cart = _user?.cart;
                 state.access_token = access_token;
                 state.refresh_token = refresh_token;
-
             })
     }
 });
 
-export const { updateUserInfo, registerUser } = userSlice.actions;
+export const { updateUserInfo, registerUser, loginUser } = userSlice.actions;
 export default userSlice.reducer;
