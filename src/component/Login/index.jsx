@@ -63,6 +63,10 @@ const Login = () => {
                     Or <a href="/register">register now!</a>
                 </Form.Item>
             </Form>
+
+            <div className="back-to-home">
+                <a href="/">Back to home</a>
+            </div>
         </div>
     )
 }

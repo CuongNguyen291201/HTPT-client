@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { userRefeshToken } from './redux/reducers/user.slice';
 import Cookies from 'js-cookie';
+import Account from './component/Account';
 
 function App() {
     const dispatch = useDispatch();
@@ -32,6 +33,7 @@ function App() {
                     <Route path="cart" element={<Cart />} />
                     <Route path="login" element={<Login />} />
                     <Route path="register" element={<Register />} />
+                    <Route path="profile" element={<Account />} />
                 </Route>
 
                 <Route path="/admin">
