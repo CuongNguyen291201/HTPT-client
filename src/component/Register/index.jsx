@@ -2,15 +2,20 @@ import React from 'react'
 import { Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined, MobileOutlined, EnvironmentOutlined, MailOutlined  } from '@ant-design/icons';
 import './style.scss'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../../redux/reducers/user.slice';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import { apiUserRegister } from '../../api/userApi';
+import useAuth from '../../hook/UseAuth';
 
 const Register = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { email } = useSelector((state) => state.userReducer)
+
+
+    useAuth({ authen: email ? "/" : false, unAuthen: false })
 
     const onFinish = async (values) => {
         const { _user, access_token, refresh_token } = await apiUserRegister(values);

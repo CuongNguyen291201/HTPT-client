@@ -3,14 +3,18 @@ import { Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import './style.scss'
 import Cookies from 'js-cookie';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../redux/reducers/user.slice';
 import { apiUserLogin } from '../../api/userApi';
 import { useNavigate } from 'react-router';
+import useAuth from '../../hook/UseAuth';
 
 const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { email } = useSelector((state) => state.userReducer)
+
+    useAuth({ authen: email ? "/" : false, unAuthen: false })
 
     const onFinish = async (values) => {
         const { _user, access_token, refresh_token } = await apiUserLogin(values);
@@ -30,15 +34,15 @@ const Login = () => {
                 onFinish={onFinish}
             >
                 <Form.Item
-                    name="username"
+                    name="email"
                     rules={[
                         {
                             required: true,
-                            message: 'Please input your Username!',
+                            message: 'Please input your email!',
                         },
                     ]}
                 >
-                    <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+                    <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
                 </Form.Item>
                 <Form.Item
                     name="password"

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { apiUserLogin, apiUserRefreshToken, apiUserRegister } from "../../api/userApi";
+import { apiUserRefreshToken } from "../../api/userApi";
 
 const initUserState = {
     name: "",
@@ -50,6 +50,17 @@ export const userSlice = createSlice({
             state.cart = _user?.cart;
             state.access_token = access_token
             state.refresh_token = refresh_token
+        },
+        logoutUser: (state, action) => {
+            state.name = ""
+            state.address = ""
+            state.email = ""
+            state.phone = ""
+            state.avatar = ""
+            state.role = 0
+            state.cart = []
+            state.access_token = ""
+            state.refresh_token = ""
         }
     },
     extraReducers: (builder) => {
@@ -69,5 +80,5 @@ export const userSlice = createSlice({
     }
 });
 
-export const { updateUserInfo, registerUser, loginUser } = userSlice.actions;
+export const { updateUserInfo, registerUser, loginUser, logoutUser } = userSlice.actions;
 export default userSlice.reducer;

@@ -1,39 +1,42 @@
 import React from 'react'
 import { Layout, Row, Col, Badge } from 'antd';
-import { ShoppingCartOutlined, GithubOutlined } from '@ant-design/icons';
+import { ShoppingCartOutlined, GithubOutlined, UserOutlined } from '@ant-design/icons';
 import './style.scss';
+import { useSelector } from 'react-redux';
 
 const { Header } = Layout;
 
 const MainNav = () => {
+    const { email, cart } = useSelector((state) => state.userReducer)
+
     return (
         <Header>
             <Row justify="space-between" className="main-nav">
                 <Col span={2}>
                     <div className="left-nav-items">
-                        <a target="_blank" href="/">
+                        <a href="/">
                             <GithubOutlined style={{ fontSize: 25, cursor: 'pointer' }} />
                         </a>
                         <a href="/">Home</a>
                     </div>
                 </Col>
                 <Col span={2} style={{ textAlign: 'right' }}>
-                    <a href="/cart">
+                    <div className="user">
                         <div>
-                            <Badge
-                                count={2}
-                                style={{
-                                    backgroundColor: '#fff',
-                                    color: '#999',
-                                    boxShadow: '0 0 0 1px #d9d9d9 inset',
-                                }}
-                            >
-                                <ShoppingCartOutlined
-                                    style={{ fontSize: 25, cursor: 'pointer', color: '#fff' }}
-                                />
-                            </Badge>
+                            <a href={`${email ? "/profile" : "/login"}`}>
+                                <UserOutlined style={{ fontSize: 25, cursor: 'pointer', color: '#fff' }} />
+                            </a>
                         </div>
-                    </a>
+                        <div>
+                            <a href="/cart">
+                                <Badge count={cart ? cart.length : 0}
+                                    style={{ backgroundColor: '#fff', color: '#999', boxShadow: '0 0 0 1px #d9d9d9 inset' }}
+                                >
+                                    <ShoppingCartOutlined style={{ fontSize: 25, cursor: 'pointer', color: '#fff' }} />
+                                </Badge>
+                            </a>
+                        </div>
+                    </div>
                 </Col>
             </Row>
         </Header>

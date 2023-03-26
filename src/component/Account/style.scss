@@ -1,8 +1,22 @@
-body {
-    background-color: #F2F6FC !important;
+.layout {
+    background-color: #F2F6FC;
     .width-layout {
         width: 50%;
         margin: 0 auto;
         height: 100vh;
+        .content-layout {
+            background-color: #fff;
+            padding: 50px;
+            @media (max-width: 768.98px) {
+                padding: 0;
+                text-align: center;
+                .ant-col {
+                    width: 100%;
+                }
+            }
+            .logout {
+                cursor: pointer;
+            }
+        }
     }
 }
