@@ -3,7 +3,6 @@ import { apiCreateProduct, apiDeleteProduct, apiGetProducts, apiUpdateProduct } 
 
 const initProductState = {
     products: [],
-    mapWebSeo: {},
     currentProduct: {},
     showModal: false,
     isUpdate: false
@@ -50,22 +49,12 @@ export const productSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchProduct.fulfilled, (state, action) => {
-                state.webSeo = action.payload
-                state.mapWebSeo = action.payload.reduce((map, item) => {
-                    const { appId } = item;
-                    map[appId] = [...(map[appId] || []), item]
-                    return map;
-                }, {})
+                state.products = action.payload 
             })
             .addCase(createProduct.fulfilled, (state, action) => {
-                const newWebSeo = [...state.webSeo, action.payload._webSeo]
-                state.webSeo = newWebSeo
+                const newProducts = [...state.products, action.payload._product]
+                state.products = newProducts
                 state.showModal = action.payload.showModal
-                state.mapWebSeo = newWebSeo.reduce((map, item) => {
-                    const { appId } = item;
-                    map[appId] = [...(map[appId] || []), item]
-                    return map;
-                }, {})
             })
             .addCase(updateProduct.fulfilled, (state, action) => {
                 const newWebSeo = state.webSeo.map(item => {
@@ -81,13 +70,8 @@ export const productSlice = createSlice({
                 }, {})
             })
             .addCase(deleteProduct.fulfilled, (state, action) => {
-                const newWebSeo = state.webSeo.filter(item => item._id !== action.payload)
-                state.webSeo = newWebSeo
-                state.mapWebSeo = newWebSeo.reduce((map, item) => {
-                    const { appId } = item;
-                    map[appId] = [...(map[appId] || []), item]
-                    return map;
-                }, {})
+                const newProducts = state.products.filter(item => item._id !== action.payload)
+                state.products = newProducts
             })
     }
 });
