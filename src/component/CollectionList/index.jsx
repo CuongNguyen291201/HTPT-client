@@ -2,6 +2,7 @@ import React from 'react'
 import guitar from '../../media/guitar.jpg'
 import { Card, Col, Row } from 'antd'
 import './style.scss'
+import { mapCategory } from '../../utils/constrant';
 
 const { Meta } = Card;
 
@@ -21,7 +22,7 @@ const CollectionList = () => {
                                     item ? <img alt="example" src={guitar} /> : null
                                 }
                             >
-                                <Meta title={item} description="" />
+                                <Meta title={mapCategory[item]} description="" />
                             </Card>
                         </a>
                     </Col>

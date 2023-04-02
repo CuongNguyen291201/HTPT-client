@@ -13,10 +13,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { userRefeshToken } from './redux/reducers/user.slice';
 import Cookies from 'js-cookie';
 import Account from './component/Account';
+import Collections from './page/Collections';
 
 function App() {
     const dispatch = useDispatch();
-    const { name, email, access_token, refresh_token } = useSelector((state) => state.userReducer)
+    const { access_token, refresh_token } = useSelector((state) => state.userReducer)
 
     useEffect(() => {
         let _token = refresh_token || Cookies.get('token');
@@ -34,6 +35,7 @@ function App() {
                     <Route path="login" element={<Login />} />
                     <Route path="register" element={<Register />} />
                     <Route path="profile" element={<Account />} />
+                    <Route path="/collection/:id" element={<Collections />} />
                 </Route>
 
                 <Route path="/admin">

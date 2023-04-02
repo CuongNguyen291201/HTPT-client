@@ -18,14 +18,20 @@ export const apiCreateProduct = async (product) => {
     return data;
 }
 
-export const apiUpdateProduct = async (_id, product) => {
-    const { data, status } = await POST_API("update-product",{ _id: _id, product: product } );
+export const apiUpdateProduct = async (product) => {
+    const { data, status } = await POST_API("update-product",{ product: product } );
     if (status !== 200) return [];
     return data;
 }
 
 export const apiDeleteProduct = async (_id) => {
     const { data, status } = await POST_API("delete-product", { _id });
+    if (status !== 200) return [];
+    return data;
+}
+
+export const apiDeleteImageProduct = async (imageId) => {
+    const { data, status } = await POST_API("delete-image-product", { imageId });
     if (status !== 200) return [];
     return data;
 }

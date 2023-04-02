@@ -23,8 +23,8 @@ export const createProduct = createAsyncThunk("product/createProduct", async (ar
 })
 
 export const updateProduct = createAsyncThunk("product/updateProduct", async (args) => {
-    const { _id, product, showModal } = args;
-    const productUpdate = await apiUpdateProduct(_id, product);
+    const { product, showModal } = args;
+    const productUpdate = await apiUpdateProduct(product);
     return {
         productUpdate,
         showModal
@@ -57,17 +57,13 @@ export const productSlice = createSlice({
                 state.showModal = action.payload.showModal
             })
             .addCase(updateProduct.fulfilled, (state, action) => {
-                const newWebSeo = state.webSeo.map(item => {
-                    if (item._id === action.payload.webSeoUpdate._id) return action.payload.webSeoUpdate;
+                state.showModal = action.payload.showModal
+                state.products = state.products.map(item => {
+                    if (item._id === action.payload.productUpdate._id) {
+                        item = action.payload.productUpdate;
+                    }
                     return item;
                 })
-                state.webSeo = newWebSeo
-                state.showModal = action.payload.showModal
-                state.mapWebSeo = newWebSeo.reduce((map, item) => {
-                    const { appId } = item;
-                    map[appId] = [...(map[appId] || []), item]
-                    return map;
-                }, {})
             })
             .addCase(deleteProduct.fulfilled, (state, action) => {
                 const newProducts = state.products.filter(item => item._id !== action.payload)
