@@ -14,8 +14,7 @@ export const fetchProduct = createAsyncThunk("product/fetchProduct", async () =>
     return product;
 })
 
-export const getProductByCollection = createAsyncThunk("product/getProductByCollection", async (args) => {
-    const { category } = args;
+export const getProductByCollection = createAsyncThunk("product/getProductByCollection", async (category) => {
     const product = await apiGetProductByCollection(category);
     return product;
 })

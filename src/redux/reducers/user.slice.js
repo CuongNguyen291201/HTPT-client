@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { apiUserRefreshToken } from "../../api/userApi";
+import { apiUpdateCart, apiUserRefreshToken } from "../../api/userApi";
 
 const initUserState = {
     name: "",
@@ -16,6 +16,11 @@ const initUserState = {
 export const userRefeshToken = createAsyncThunk("user/userRefeshToken", async (token) => {
     const { _user, access_token, refresh_token } = await apiUserRefreshToken(token);
     return { _user, access_token, refresh_token };
+})
+
+export const updateCart = createAsyncThunk("user/updateCart", async (cart) => {
+    const { _cart } = await apiUpdateCart(cart);
+    return _cart;
 })
 
 export const userSlice = createSlice({
@@ -76,6 +81,9 @@ export const userSlice = createSlice({
                 state.cart = _user?.cart;
                 state.access_token = access_token;
                 state.refresh_token = refresh_token;
+            })
+            .addCase(updateCart.fulfilled, (state, action) => {
+                state.cart = action.payload
             })
     }
 });

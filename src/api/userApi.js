@@ -23,3 +23,9 @@ export const apiUserRefreshToken = async (token) => {
     if (status !== 200) return {};
     return data;
 }
+
+export const apiUpdateCart = async (cart) => {
+    const { data, status } = await POST_API("add-cart", { cart: cart });
+    if (status !== 200) return {};
+    return data;
+}
