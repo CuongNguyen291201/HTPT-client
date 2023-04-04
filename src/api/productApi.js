@@ -12,6 +12,12 @@ export const apiGetProduct = async (_id) => {
     return data;
 }
 
+export const apiGetProductByCollection = async (category) => {
+    const { data, status } = await POST_API("get-product-by-collection", { category });
+    if (status !== 200) return [];
+    return data;
+}
+
 export const apiCreateProduct = async (product) => {
     const { data, status } = await POST_API("create-product", { product: product });
     if (status !== 200) return [];

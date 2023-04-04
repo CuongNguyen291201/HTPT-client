@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { apiCreateProduct, apiDeleteProduct, apiGetProducts, apiUpdateProduct } from "../../api/productApi";
+import { apiCreateProduct, apiDeleteProduct, apiGetProductByCollection, apiGetProducts, apiUpdateProduct } from "../../api/productApi";
 
 const initProductState = {
     products: [],
+    productByCollection: [],
     currentProduct: {},
     showModal: false,
     isUpdate: false
@@ -10,6 +11,12 @@ const initProductState = {
 
 export const fetchProduct = createAsyncThunk("product/fetchProduct", async () => {
     const product = await apiGetProducts();
+    return product;
+})
+
+export const getProductByCollection = createAsyncThunk("product/getProductByCollection", async (args) => {
+    const { category } = args;
+    const product = await apiGetProductByCollection(category);
     return product;
 })
 
@@ -50,6 +57,9 @@ export const productSlice = createSlice({
         builder
             .addCase(fetchProduct.fulfilled, (state, action) => {
                 state.products = action.payload 
+            })
+            .addCase(getProductByCollection.fulfilled, (state, action) => {
+                state.productByCollection = action.payload
             })
             .addCase(createProduct.fulfilled, (state, action) => {
                 const newProducts = [...state.products, action.payload._product]
