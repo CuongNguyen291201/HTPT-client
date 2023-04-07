@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { apiUpdateCart, apiUserRefreshToken } from "../../api/userApi";
 
 const initUserState = {
+    _id: "",
     name: "",
     email: "",
     address: "",
@@ -18,8 +19,9 @@ export const userRefeshToken = createAsyncThunk("user/userRefeshToken", async (t
     return { _user, access_token, refresh_token };
 })
 
-export const updateCart = createAsyncThunk("user/updateCart", async (cart) => {
-    const { _cart } = await apiUpdateCart(cart);
+export const updateCart = createAsyncThunk("user/updateCart", async (cart, _id) => {
+    console.log('userId', _id)
+    const { _cart } = await apiUpdateCart(cart, _id);
     return _cart;
 })
 
@@ -34,29 +36,32 @@ export const userSlice = createSlice({
         },
         registerUser: (state, action) => {
             let { _user, access_token, refresh_token } = action.payload;
+            // state._id = _user?._id;
             state.name = _user?.name;
             state.address = _user?.address;
             state.email = _user?.email;
             state.phone = _user?.phone;
             state.avatar = _user?.avatar;
             state.role = _user?.role;
-            state.cart = _user?.cart;
+            state.cart = _user.cart || [];
             state.access_token = access_token
             state.refresh_token = refresh_token
         },
         loginUser: (state, action) => {
             let { _user, access_token, refresh_token } = action.payload;
+            state._id = _user?._id;
             state.name = _user?.name;
             state.address = _user?.address;
             state.email = _user?.email;
             state.phone = _user?.phone;
             state.avatar = _user?.avatar;
             state.role = _user?.role;
-            state.cart = _user?.cart;
+            state.cart = _user.cart || [];
             state.access_token = access_token
             state.refresh_token = refresh_token
         },
         logoutUser: (state, action) => {
+            state._id = ""
             state.name = ""
             state.address = ""
             state.email = ""
@@ -72,13 +77,14 @@ export const userSlice = createSlice({
         builder
             .addCase(userRefeshToken.fulfilled, (state, action) => {
                 let { _user, access_token, refresh_token } = action.payload;
+                state._id = _user?._id;
                 state.name = _user?.name;
                 state.address = _user?.address;
                 state.email = _user?.email;
                 state.phone = _user?.phone;
                 state.avatar = _user?.avatar;
                 state.role = _user?.role;
-                state.cart = _user?.cart;
+                state.cart = _user.cart || [];
                 state.access_token = access_token;
                 state.refresh_token = refresh_token;
             })

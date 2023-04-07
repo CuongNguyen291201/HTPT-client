@@ -1,17 +1,34 @@
 import { Button, Col, Descriptions, Row, Typography } from 'antd'
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import MainLayout from '../MainLayout/MainLayout'
 import person from '../../media/person.jpg'
 import './style.scss'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
+import { getProductById } from '../../redux/reducers/product.slice'
+import { updateCart } from '../../redux/reducers/user.slice'
 
 const { Text } = Typography;
 const { Item } = Descriptions;
 
 const ProductDetail = () => {
-    const { name, email } = useSelector((state) => state.userReducer)
+    const { _id, name, cart } = useSelector((state) => state.userReducer)
+    const { product } = useSelector((state) => state.productReducer)
+    const dispatch = useDispatch();
+    const { id } = useParams();
 
+    useEffect(() => {
+        dispatch(getProductById(id));
+    }, [])
+    
+    const handleAddCart = useCallback(() => {
+        let newCart = [...cart, product];
+        dispatch(updateCart(newCart, _id))
+    }, [product])
+
+    // console.log('product', product)
     console.log('name', name)
+    console.log('cart', cart, _id)
 
     return (
         <MainLayout>
@@ -22,17 +39,15 @@ const ProductDetail = () => {
                     </Col>
 
                     <Col sm={24} lg={12}>
-                        <Descriptions title={"Premium Quality"} column={1}>
+                        <Descriptions title={product.title} column={1}>
                             <Item key="price" label="Price" className="price-description">
-                                <Text type="secondary">$12</Text>
+                                <Text type="secondary">${product.price}</Text>
                             </Item>
                             <Item key="desc" label="Description">
-                                <div>
-                                    Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.
-                                </div>
+                                <div>{product.desc}</div>
                             </Item>
                             <Item key="button" label="">
-                                <Button type="primary" onClick={() => { }}>
+                                <Button type="primary" onClick={() => handleAddCart()}>
                                     Add To Cart
                                 </Button>
                             </Item>

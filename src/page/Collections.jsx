@@ -26,7 +26,7 @@ const Collections = () => {
             <Row className="" justify="space-between" gutter={[8, 8]}>
                 {productByCollection && productByCollection.map(item => (
                     <Col className="centered-col" key={item._id} sm={24} md={12} lg={5}>
-                        <a href="#">
+                        <a href={`/product/${item._id}`}>
                             <Card
                                 className="category-item-card"
                                 hoverable
