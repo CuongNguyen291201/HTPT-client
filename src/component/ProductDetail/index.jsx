@@ -6,13 +6,14 @@ import './style.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { getProductById } from '../../redux/reducers/product.slice'
+import { apiUpdateCart } from '../../api/userApi'
 import { updateCart } from '../../redux/reducers/user.slice'
 
 const { Text } = Typography;
 const { Item } = Descriptions;
 
 const ProductDetail = () => {
-    const { _id, name, cart } = useSelector((state) => state.userReducer)
+    const user = useSelector((state) => state.userReducer)
     const { product } = useSelector((state) => state.productReducer)
     const dispatch = useDispatch();
     const { id } = useParams();
@@ -21,14 +22,13 @@ const ProductDetail = () => {
         dispatch(getProductById(id));
     }, [])
     
-    const handleAddCart = useCallback(() => {
-        let newCart = [...cart, product];
-        dispatch(updateCart(newCart, _id))
-    }, [product])
+    const handleAddCart = async () => {
+        let newCart = [...user.cart, product];
+        const data = await apiUpdateCart(newCart, user._id);
+        dispatch(updateCart(data.cart))
+    }
 
-    // console.log('product', product)
-    console.log('name', name)
-    console.log('cart', cart, _id)
+    console.log('user', user)
 
     return (
         <MainLayout>

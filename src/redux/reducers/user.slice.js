@@ -19,12 +19,6 @@ export const userRefeshToken = createAsyncThunk("user/userRefeshToken", async (t
     return { _user, access_token, refresh_token };
 })
 
-export const updateCart = createAsyncThunk("user/updateCart", async (cart, _id) => {
-    console.log('userId', _id)
-    const { _cart } = await apiUpdateCart(cart, _id);
-    return _cart;
-})
-
 export const userSlice = createSlice({
     name: "user",
     initialState: initUserState,
@@ -71,6 +65,9 @@ export const userSlice = createSlice({
             state.cart = []
             state.access_token = ""
             state.refresh_token = ""
+        },
+        updateCart: (state, action) => {
+            state.cart = action.payload
         }
     },
     extraReducers: (builder) => {
@@ -88,11 +85,8 @@ export const userSlice = createSlice({
                 state.access_token = access_token;
                 state.refresh_token = refresh_token;
             })
-            .addCase(updateCart.fulfilled, (state, action) => {
-                state.cart = action.payload
-            })
     }
 });
 
-export const { updateUserInfo, registerUser, loginUser, logoutUser } = userSlice.actions;
+export const { updateUserInfo, registerUser, loginUser, logoutUser, updateCart } = userSlice.actions;
 export default userSlice.reducer;
