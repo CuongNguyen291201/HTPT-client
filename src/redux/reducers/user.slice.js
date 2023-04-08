@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { apiUpdateCart, apiUserRefreshToken } from "../../api/userApi";
+import { apiUserRefreshToken } from "../../api/userApi";
 
 const initUserState = {
     _id: "",

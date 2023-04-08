@@ -2,11 +2,38 @@
     width: 750px;
     margin: 0 auto;
     padding: 100px 0;
+
+    .main-product {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+
+        .name-product {
+            font-size: 28px;
+            font-weight: 500;
+        }
+
+        .price-description {
+            color: rgb(254, 82, 82);
+            font-size: 26px;
+        }
+
+        .product-description {
+            font-size: 24px;
+            color: rgb(0, 0, 45);
+        }
+
+        button {
+            width: fit-content;
+            background-color: lightcoral;
+        }
+    }
     img {
         width: 291px;
         height: 291px;
         object-fit: cover;
     }
+
     @media (max-width: 768.98px) {
         width: 100%;
         padding: 45px 0;

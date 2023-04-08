@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { userRefeshToken } from './redux/reducers/user.slice';
 import Cookies from 'js-cookie';
 import Account from './component/Account';
-import Collections from './page/Collections';
+import Collections from './page/collections/Collections';
 
 function App() {
     const dispatch = useDispatch();

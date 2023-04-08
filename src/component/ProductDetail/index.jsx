@@ -1,7 +1,6 @@
 import { Button, Col, Descriptions, Row, Typography } from 'antd'
-import React, { useCallback, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import MainLayout from '../MainLayout/MainLayout'
-import person from '../../media/person.jpg'
 import './style.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
@@ -21,11 +20,13 @@ const ProductDetail = () => {
     useEffect(() => {
         dispatch(getProductById(id));
     }, [])
-    
+
     const handleAddCart = async () => {
         let newCart = [...user.cart, product];
         const data = await apiUpdateCart(newCart, user._id);
-        dispatch(updateCart(data.cart))
+        if (data && data.cart) {
+            dispatch(updateCart(data.cart))
+        }
     }
 
     console.log('user', user)
@@ -35,23 +36,18 @@ const ProductDetail = () => {
             <div className="width-layout">
                 <Row justify="space-around">
                     <Col sm={24} lg={12}>
-                        <img src={person} />
+                        <img src={product.image} />
                     </Col>
 
                     <Col sm={24} lg={12}>
-                        <Descriptions title={product.title} column={1}>
-                            <Item key="price" label="Price" className="price-description">
-                                <Text type="secondary">${product.price}</Text>
-                            </Item>
-                            <Item key="desc" label="Description">
-                                <div>{product.desc}</div>
-                            </Item>
-                            <Item key="button" label="">
-                                <Button type="primary" onClick={() => handleAddCart()}>
-                                    Add To Cart
-                                </Button>
-                            </Item>
-                        </Descriptions>
+                        <div className="main-product">
+                            <div className="name-product">Name: {product.name}</div>
+                            <div className="price-description">${product.price}</div>
+                            <div className="product-description">{product.desc}</div>
+                            <Button type="primary" onClick={() => handleAddCart()}>
+                                Add To Cart
+                            </Button>
+                        </div>
                     </Col>
                 </Row>
             </div>
