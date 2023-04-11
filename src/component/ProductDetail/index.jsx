@@ -23,6 +23,10 @@ const ProductDetail = () => {
 
     const handleAddCart = async () => {
         let newCart = [...user.cart, product];
+
+        // handle cart
+        
+
         const data = await apiUpdateCart(newCart, user._id);
         if (data && data.cart) {
             dispatch(updateCart(data.cart))
