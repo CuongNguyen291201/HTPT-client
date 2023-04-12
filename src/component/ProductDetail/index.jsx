@@ -22,20 +22,27 @@ const ProductDetail = () => {
     }, [])
 
     const handleAddCart = async () => {
-        
         let _cart = [];
         if (user.cart) {
+            _cart = [...user.cart];
             let oldProduct = user.cart.find(item => item._id === product._id);
-
-            console.log('oldProduct', oldProduct, oldProduct.quantity)
-
+            let newProduct = {};
             if (oldProduct && oldProduct.quantity) {
-                oldProduct.quantity = 2;
+                newProduct = {
+                    ...oldProduct,
+                    quantity: oldProduct.quantity + 1
+                }
+                _cart = _cart.map(item => {
+                    if (item._id === newProduct._id) {
+                        item = newProduct;
+                    }
+                    return item;
+                })
             } else {
-                _cart = [...user.cart, {
+                _cart = [..._cart, {
                     ...product,
                     quantity: 1
-                }]
+                }];
             }
         } else {
             _cart.push({
@@ -43,24 +50,11 @@ const ProductDetail = () => {
                 quantity: 1
             });
         }
-        // let newCart = [...user.cart, product];
-
-
-        // handle cart
-
-        
-        
-
         const data = await apiUpdateCart(_cart, user._id);
         if (data && data.cart) {
-
-            console.log('data.cart', data.cart)
-
             dispatch(updateCart(data.cart))
         }
     }
-
-    console.log('user', user)
 
     return (
         <MainLayout>

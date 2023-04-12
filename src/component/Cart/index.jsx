@@ -4,18 +4,46 @@ import MainLayout from '../MainLayout/MainLayout'
 import './style.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { DeleteOutlined } from '@ant-design/icons'
+import { updateCart } from '../../redux/reducers/user.slice'
+import { apiUpdateCart } from '../../api/userApi'
 
 const Cart = () => {
-    const dipatch = useDispatch();
-    const { cart } = useSelector(state => state.userReducer);
+    const dispatch = useDispatch();
+    const { cart, _id } = useSelector(state => state.userReducer);
     console.log('cart', cart)
 
-    const removeCartItem = async () => {
-        
+    const removeCartItem = async (itemId) => {
+        let newCart = cart.filter(item => item._id !== itemId);
+        const data = await apiUpdateCart(newCart, _id);
+        if (data && data.cart) {
+            dispatch(updateCart(data.cart))
+        }
     }
 
     const handleCheckout = async () => {
 
+    }
+
+    const handleUpdateCartItem = async (itemId, newQuantity) => {
+        let newCart = [];
+        if (newQuantity > 0) {
+            newCart = cart.map(item => {
+                if (item._id === itemId) {
+                    let newItem = {
+                        ...item,
+                        quantity: newQuantity
+                    }
+                    item = newItem;
+                }
+                return item;
+            })
+        } else {
+            newCart = cart.filter(item => item._id !== itemId);
+        }
+        const data = await apiUpdateCart(newCart, _id);
+        if (data && data.cart) {
+            dispatch(updateCart(data.cart))
+        }
     }
 
     return (
@@ -36,12 +64,12 @@ const Cart = () => {
                                         </div>
                                         <div className="quantity-control">
                                             <InputNumber
-                                                // value={item.}
-                                                // onChange={(count) => handleUpdateCartItem(count)}
+                                                value={item.quantity}
+                                                onChange={(count) => handleUpdateCartItem(item._id, count)}
                                             />
                                         </div>
                                         <div className="delete">
-                                            <DeleteOutlined onClick={() => removeCartItem()} />
+                                            <DeleteOutlined onClick={() => removeCartItem(item._id)} />
                                         </div>
                                     </div>
                                 ))
