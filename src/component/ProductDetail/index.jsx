@@ -22,13 +22,40 @@ const ProductDetail = () => {
     }, [])
 
     const handleAddCart = async () => {
-        let newCart = [...user.cart, product];
+        
+        let _cart = [];
+        if (user.cart) {
+            let oldProduct = user.cart.find(item => item._id === product._id);
+
+            console.log('oldProduct', oldProduct, oldProduct.quantity)
+
+            if (oldProduct && oldProduct.quantity) {
+                oldProduct.quantity = 2;
+            } else {
+                _cart = [...user.cart, {
+                    ...product,
+                    quantity: 1
+                }]
+            }
+        } else {
+            _cart.push({
+                ...product,
+                quantity: 1
+            });
+        }
+        // let newCart = [...user.cart, product];
+
 
         // handle cart
+
+        
         
 
-        const data = await apiUpdateCart(newCart, user._id);
+        const data = await apiUpdateCart(_cart, user._id);
         if (data && data.cart) {
+
+            console.log('data.cart', data.cart)
+
             dispatch(updateCart(data.cart))
         }
     }
