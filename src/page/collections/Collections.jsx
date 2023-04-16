@@ -16,8 +16,6 @@ const Collections = () => {
         dispatch(getProductByCollection(+id));
     }, [])
 
-    console.log('productByCollection', productByCollection)
-
     return (
         <MainLayout>
             <div className="main-collection">

@@ -14,6 +14,7 @@ import { userRefeshToken } from './redux/reducers/user.slice';
 import Cookies from 'js-cookie';
 import Account from './component/Account';
 import Collections from './page/collections/Collections';
+import Searchpage from './page/Searchpage';
 
 function App() {
     const dispatch = useDispatch();
@@ -36,6 +37,7 @@ function App() {
                     <Route path="register" element={<Register />} />
                     <Route path="profile" element={<Account />} />
                     <Route path="/collection/:id" element={<Collections />} />
+                    <Route path="/search" element={<Searchpage />} />
                 </Route>
 
                 <Route path="/admin">

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Layout, Row, Col, Badge } from 'antd';
-import { ShoppingCartOutlined, GithubOutlined, UserOutlined } from '@ant-design/icons';
+import { ShoppingCartOutlined, GithubOutlined, UserOutlined, SearchOutlined } from '@ant-design/icons';
 import './style.scss';
 import { useSelector } from 'react-redux';
 
@@ -25,6 +25,11 @@ const MainNav = () => {
                         <div>
                             <a href={`${email ? "/profile" : "/login"}`}>
                                 <UserOutlined style={{ fontSize: 25, cursor: 'pointer', color: '#fff' }} />
+                            </a>
+                        </div>
+                        <div>
+                            <a href="/search">
+                                <SearchOutlined style={{ fontSize: 25, cursor: 'pointer', color: '#fff' }} />
                             </a>
                         </div>
                         <div>

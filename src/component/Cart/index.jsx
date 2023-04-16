@@ -6,11 +6,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { DeleteOutlined } from '@ant-design/icons'
 import { updateCart } from '../../redux/reducers/user.slice'
 import { apiUpdateCart } from '../../api/userApi'
+import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js'
 
 const Cart = () => {
     const dispatch = useDispatch();
     const { cart, _id } = useSelector(state => state.userReducer);
-    console.log('cart', cart)
 
     const removeCartItem = async (itemId) => {
         let newCart = cart.filter(item => item._id !== itemId);
@@ -87,6 +87,20 @@ const Cart = () => {
                         </div>
 
                         <Button type="primary" danger onClick={() => handleCheckout()}>Checkout</Button>
+                        <PayPalScriptProvider 
+                            options={{ 
+                                "client-id": "AZ6nie_mzghQEtG5OMD5IrqLObecywGdCvMnEUihJIZ87p_9ReBtQZXwLht2EpY1iJZCWHS1fJQW76po" 
+                            }}
+                        >
+                            <PayPalButtons 
+                                style={{ layout: "horizontal" }} 
+                                onApprove={(data, actions) => {
+                                    return actions.order.capture().then(function (details) {
+                                        console.log('details', details)
+                                    });
+                                }}    
+                            />
+                        </PayPalScriptProvider>
                     </Col>
                 </Row>
             </div>

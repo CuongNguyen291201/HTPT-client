@@ -41,3 +41,9 @@ export const apiDeleteImageProduct = async (imageId) => {
     if (status !== 200) return [];
     return data;
 }
+
+export const apiSearchProduct = async (search) => {
+    const { data, status } = await POST_API("search-product", { search });
+    if (status !== 200) return null;
+    return data;
+}

@@ -12,9 +12,6 @@ const FeatureProduct = () => {
         dispatch(fetchProduct());
     }, [])
     
-
-    console.log('products', products)
-
     return (
         <div className="with-layout">
             <p className="title-section">Feature Product</p>

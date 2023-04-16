@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { apiCreateProduct, apiDeleteProduct, apiGetProduct, apiGetProductByCollection, apiGetProducts, apiUpdateProduct } from "../../api/productApi";
+import { apiCreateProduct, apiDeleteProduct, apiGetProduct, apiGetProductByCollection, apiGetProducts, apiSearchProduct, apiUpdateProduct } from "../../api/productApi";
 
 const initProductState = {
     products: [],
     product: {},
     productByCollection: [],
     currentProduct: {},
+    productSearch: [],
     showModal: false,
     isUpdate: false
 }
@@ -48,6 +49,11 @@ export const deleteProduct = createAsyncThunk("product/deleteProduct", async (_i
     return _id;
 })
 
+export const searchProduct = createAsyncThunk("product/searchProduct", async (search) => {
+    const data = await apiSearchProduct(search);
+    return data;
+})
+
 export const productSlice = createSlice({
     name: "product",
     initialState: initProductState,
@@ -86,6 +92,9 @@ export const productSlice = createSlice({
             })
             .addCase(getProductById.fulfilled, (state, action) => {
                 state.product = action.payload;
+            })
+            .addCase(searchProduct.fulfilled, (state, action) => {
+                state.productSearch = action.payload;
             })
     }
 });
