@@ -16,7 +16,13 @@
             }
             .logout {
                 cursor: pointer;
+                padding-bottom: 15px;
+                color: rgb(255, 119, 119);
             }
+        }
+
+        @media (max-width: 768.98px) {
+            width: 90%;
         }
     }
 }

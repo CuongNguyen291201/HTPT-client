@@ -7,10 +7,21 @@ import { DeleteOutlined } from '@ant-design/icons'
 import { updateCart } from '../../redux/reducers/user.slice'
 import { apiUpdateCart } from '../../api/userApi'
 import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js'
+import { createOrder } from '../../redux/reducers/order.slice'
+import { useEffect } from 'react'
+import { useState } from 'react'
 
 const Cart = () => {
     const dispatch = useDispatch();
     const { cart, _id } = useSelector(state => state.userReducer);
+    const [subTotal, setSubTotal] = useState(0);
+    // const subTotal = cart.reduce((prev, current) => prev + (current.price * current.quantity), 0);
+
+    useEffect(() => {
+        let calculate = cart.reduce((prev, current) => prev + (current.price * current.quantity), 0);
+        setSubTotal(calculate)
+    }, [cart])
+    
 
     const removeCartItem = async (itemId) => {
         let newCart = cart.filter(item => item._id !== itemId);
@@ -20,8 +31,16 @@ const Cart = () => {
         }
     }
 
-    const handleCheckout = async () => {
-
+    const handleCheckout = async (details) => {
+        console.log('details', details)
+        const order = {
+            idUser: _id,
+            idPayment: details.id,
+            products: cart
+        };
+        dispatch(createOrder(order));
+        await apiUpdateCart([], _id);
+        dispatch(updateCart([]));
     }
 
     const handleUpdateCartItem = async (itemId, newQuantity) => {
@@ -45,6 +64,8 @@ const Cart = () => {
             dispatch(updateCart(data.cart))
         }
     }
+
+    console.log('subTotal', subTotal, typeof subTotal)
 
     return (
         <MainLayout>
@@ -81,22 +102,33 @@ const Cart = () => {
                         <div className="cart-item cart-subtotal">
                             <h2>Order Summary</h2>
                             <div className="total-price">
-                                <span className="title-total">Total</span>
-                                <span className="price">1000</span>
+                                <span className="title-total">Total: {subTotal}$</span>
                             </div>
                         </div>
 
-                        <Button type="primary" danger onClick={() => handleCheckout()}>Checkout</Button>
+                        {/* <Button type="primary" danger onClick={() => handleCheckout()}>Checkout</Button> */}
                         <PayPalScriptProvider 
                             options={{ 
                                 "client-id": "AZ6nie_mzghQEtG5OMD5IrqLObecywGdCvMnEUihJIZ87p_9ReBtQZXwLht2EpY1iJZCWHS1fJQW76po" 
                             }}
                         >
-                            <PayPalButtons 
+                            <PayPalButtons
                                 style={{ layout: "horizontal" }} 
+                                createOrder={(data, actions) => {
+                                    return actions.order.create({
+                                        purchase_units: [
+                                            {
+                                                amount: {
+                                                    currency_code: "USD",
+                                                    value: subTotal
+                                                }
+                                            }
+                                        ]
+                                    });
+                                }}
                                 onApprove={(data, actions) => {
                                     return actions.order.capture().then(function (details) {
-                                        console.log('details', details)
+                                        handleCheckout(details)
                                     });
                                 }}    
                             />

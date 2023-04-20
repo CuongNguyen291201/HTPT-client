@@ -1,22 +1,33 @@
 import { EnvironmentOutlined, MailOutlined, MobileOutlined, UserOutlined } from '@ant-design/icons'
-import { Button, Col, Form, Input, Row } from 'antd'
+import { Button, Col, Form, Input, Row, Table } from 'antd'
 import Cookies from 'js-cookie'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { apiUserLogout } from '../../api/userApi'
-import { logoutUser } from '../../redux/reducers/user.slice'
+import { apiUpdateUserInfo, apiUserLogout } from '../../api/userApi'
+import { logoutUser, updateUserInfo } from '../../redux/reducers/user.slice'
 import MainLayout from '../MainLayout/MainLayout'
 import './style.scss'
+import { getOrderByUser } from '../../redux/reducers/order.slice'
 
 const Account = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { email, phone } = useSelector((state) => state.userReducer)
+    const { email, phone, _id } = useSelector((state) => state.userReducer)
+    const { orderByUser } = useSelector((state) => state.orderReducer)
 
+    useEffect(() => {
+        dispatch(getOrderByUser(_id));
+    }, [_id])
 
-    const onFinish = () => {
+    const onFinish = async (values) => {
+        const data = await apiUpdateUserInfo(values);
 
+        console.log('data', data)
+
+        if (data) {
+            dispatch(updateUserInfo(data));
+        }
     }
 
     const handleLogout = async () => {
@@ -27,6 +38,8 @@ const Account = () => {
             navigate('/')
         }
     }
+
+    console.log()
 
     return (
         <MainLayout>
@@ -58,7 +71,7 @@ const Account = () => {
                                     <Row justify="space-around" gutter={[8, 8]}>
                                         <Col sm={24} lg={12}>
                                             <Form.Item
-                                                name="username"
+                                                name="name"
                                                 rules={[
                                                     {
                                                         required: true,
@@ -77,7 +90,7 @@ const Account = () => {
                                                     },
                                                 ]}
                                             >
-                                                <Input prefix={<MailOutlined className="site-form-item-icon" />} placeholder="Email" />
+                                                <Input disabled={true} prefix={<MailOutlined className="site-form-item-icon" />} placeholder="Email" />
                                             </Form.Item>
                                         </Col>
 
@@ -117,6 +130,18 @@ const Account = () => {
                         </Row>
 
                         <div className="logout" onClick={() => handleLogout()}>Logout</div>
+
+                        <div>
+                            <h2>Order History</h2>
+                            <Row justify="space-around">
+                                <Col sm={24}>
+                                    <Table dataSource={orderByUser} size="middle" pagination={false}>
+                                        <Table.Column title="Order id" dataIndex="_id" />
+                                        <Table.Column title="Quantity Item" dataIndex="products" render={(_, product) => <span>{product.products && product.products.length}</span>} />
+                                    </Table>
+                                </Col>
+                            </Row>
+                        </div>
                     </div>
                 </div>
             </div>

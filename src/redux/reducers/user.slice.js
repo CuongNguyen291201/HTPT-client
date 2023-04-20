@@ -19,17 +19,10 @@ export const userRefeshToken = createAsyncThunk("user/userRefeshToken", async (t
     return { _user, access_token, refresh_token };
 })
 
-// hanle cart
-
 export const userSlice = createSlice({
     name: "user",
     initialState: initUserState,
     reducers: {
-        updateUserInfo: (state, action) => {
-            let newUser = action.payload;
-            state.name = newUser.name;
-            state.email = newUser.email;
-        },
         registerUser: (state, action) => {
             let { _user, access_token, refresh_token } = action.payload;
             // state._id = _user?._id;
@@ -70,6 +63,12 @@ export const userSlice = createSlice({
         },
         updateCart: (state, action) => {
             state.cart = action.payload
+        },
+        updateUserInfo: (state, action) => {
+            const { _user } = action.payload
+            state.name = _user?.name;
+            state.address = _user?.address;
+            state.phone = _user?.phone;
         }
     },
     extraReducers: (builder) => {

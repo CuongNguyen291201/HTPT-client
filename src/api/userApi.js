@@ -1,3 +1,4 @@
+import { DatabaseFilled } from "@ant-design/icons";
 import { GET_API, POST_API } from "../utils/method";
 
 export const apiUserRegister = async (user) => {
@@ -27,5 +28,11 @@ export const apiUserRefreshToken = async (token) => {
 export const apiUpdateCart = async (cart, userId) => {
     const { data, status } = await POST_API("add-cart", { cart: cart, userId: userId });
     if (status !== 200) return {};
+    return data;
+}
+
+export const apiUpdateUserInfo = async(userInfo) => {
+    const { data, status } = await POST_API("update-user-info", { userInfo: userInfo });
+    if (status !== 200) return null;
     return data;
 }
