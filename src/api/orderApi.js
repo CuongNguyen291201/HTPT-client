@@ -19,7 +19,7 @@ export const apiCreateOrder = async (order) => {
 }
 
 export const apiDeleteOrder = async (orderId) => {
-    const { data, status } = await POST_API("delete-event", { orderId });
+    const { data, status } = await POST_API("delete-order", { orderId });
     if (status !== 200) return null;
     return data;
 }

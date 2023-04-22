@@ -9,11 +9,12 @@ import { logoutUser, updateUserInfo } from '../../redux/reducers/user.slice'
 import MainLayout from '../MainLayout/MainLayout'
 import './style.scss'
 import { getOrderByUser } from '../../redux/reducers/order.slice'
+import moment from 'moment'
 
 const Account = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { email, phone, _id } = useSelector((state) => state.userReducer)
+    const { address, name, email, phone, _id } = useSelector((state) => state.userReducer)
     const { orderByUser } = useSelector((state) => state.orderReducer)
 
     useEffect(() => {
@@ -21,9 +22,7 @@ const Account = () => {
     }, [_id])
 
     const onFinish = async (values) => {
-        const data = await apiUpdateUserInfo(values);
-
-        console.log('data', data)
+        const data = await apiUpdateUserInfo({ _id, ...values });
 
         if (data) {
             dispatch(updateUserInfo(data));
@@ -38,8 +37,6 @@ const Account = () => {
             navigate('/')
         }
     }
-
-    console.log()
 
     return (
         <MainLayout>
@@ -64,46 +61,30 @@ const Account = () => {
                                         {
                                             name: ["phone"],
                                             value: phone
+                                        },
+                                        {
+                                            name: ["address"],
+                                            value: address
+                                        },
+                                        {
+                                            name: ["name"],
+                                            value: name
                                         }
                                     ]}
                                     onFinish={onFinish}
                                 >
                                     <Row justify="space-around" gutter={[8, 8]}>
                                         <Col sm={24} lg={12}>
-                                            <Form.Item
-                                                name="name"
-                                                rules={[
-                                                    {
-                                                        required: true,
-                                                        message: 'Please input your Username!',
-                                                    },
-                                                ]}
-                                            >
+                                            <Form.Item name="name">
                                                 <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
                                             </Form.Item>
-                                            <Form.Item
-                                                name="email"
-                                                rules={[
-                                                    {
-                                                        required: true,
-                                                        message: 'Please input your Email!',
-                                                    },
-                                                ]}
-                                            >
+                                            <Form.Item name="email">
                                                 <Input disabled={true} prefix={<MailOutlined className="site-form-item-icon" />} placeholder="Email" />
                                             </Form.Item>
                                         </Col>
 
                                         <Col sm={24} lg={12}>
-                                            <Form.Item
-                                                name="address"
-                                                rules={[
-                                                    {
-                                                        required: true,
-                                                        message: 'Please input your Address!',
-                                                    },
-                                                ]}
-                                            >
+                                            <Form.Item name="address">
                                                 <Input prefix={<EnvironmentOutlined className="site-form-item-icon" />} placeholder="Address" />
                                             </Form.Item>
                                             <Form.Item
@@ -138,6 +119,7 @@ const Account = () => {
                                     <Table dataSource={orderByUser} size="middle" pagination={false}>
                                         <Table.Column title="Order id" dataIndex="_id" />
                                         <Table.Column title="Quantity Item" dataIndex="products" render={(_, product) => <span>{product.products && product.products.length}</span>} />
+                                        <Table.Column title="Date buy" dataIndex="createdAt" render={(_, createdAt) => <span>{moment(createdAt).format("DD-MM-YYYY")}</span>} />
                                     </Table>
                                 </Col>
                             </Row>

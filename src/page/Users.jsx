@@ -1,8 +1,17 @@
-import { Card, Col, Row, Table } from 'antd'
-import React from 'react'
+import { Button, Card, Col, Popconfirm, Row, Table } from 'antd'
+import React, { useEffect } from 'react'
 import Layout from '../component/Layout/Layout'
+import { useDispatch, useSelector } from 'react-redux'
+import { deleteUser, getUsers } from '../redux/reducers/user.slice'
 
 const Users = () => {
+    const dispatch = useDispatch();
+    const { listUser } = useSelector(state => state.userReducer);
+
+    useEffect(() => {
+        dispatch(getUsers());
+    }, [])
+
     return (
         <Layout>
             <div id="" style={{ padding: "20px" }}>
@@ -15,10 +24,21 @@ const Users = () => {
                             className="users"
                             bodyStyle={{ height: 'calc(100vh - 150px)', overflow: 'auto' }}
                         >
-                            <Table dataSource={[]} size="middle" pagination={false}>
+                            <Table dataSource={listUser} size="middle" pagination={false}>
+                                <Table.Column title="Email" dataIndex="email" />
                                 <Table.Column title="Name" dataIndex="name" />
                                 <Table.Column title="Phone Number" dataIndex="phone" />
                                 <Table.Column title="Address" dataIndex="address" />
+                                <Table.Column title="" render={(_, user) =>
+                                    <Popconfirm
+                                        title="Are you sure to delete this user?"
+                                        onConfirm={() => dispatch(deleteUser(user._id))}
+                                        okText="Yes"
+                                        cancelText="No"
+                                    >
+                                        <Button>Delete</Button>
+                                    </Popconfirm>}
+                                />
                             </Table>
                         </Card>
                     </Col>

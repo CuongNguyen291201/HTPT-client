@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { apiUserRefreshToken } from "../../api/userApi";
+import { apiDeleteUser, apiGetListUser, apiUserRefreshToken } from "../../api/userApi";
 
 const initUserState = {
     _id: "",
@@ -11,12 +11,23 @@ const initUserState = {
     role: 0,
     cart: [],
     access_token: "",
-    refresh_token: ""
+    refresh_token: "",
+    listUser: []
 }
 
 export const userRefeshToken = createAsyncThunk("user/userRefeshToken", async (token) => {
     const { _user, access_token, refresh_token } = await apiUserRefreshToken(token);
     return { _user, access_token, refresh_token };
+})
+
+export const getUsers = createAsyncThunk("user/getUsers", async () => {
+    const data = await apiGetListUser();
+    return data;
+})
+
+export const deleteUser = createAsyncThunk("order/deleteUser", async (userId) => {
+    await apiDeleteUser(userId);
+    return userId;
 })
 
 export const userSlice = createSlice({
@@ -65,10 +76,17 @@ export const userSlice = createSlice({
             state.cart = action.payload
         },
         updateUserInfo: (state, action) => {
-            const { _user } = action.payload
+            const _user = action.payload
+            state._id = _user?._id;
             state.name = _user?.name;
             state.address = _user?.address;
+            state.email = _user?.email;
             state.phone = _user?.phone;
+            state.avatar = _user?.avatar;
+            state.role = _user?.role;
+            state.cart = _user.cart || [];
+            // state.access_token = _user.access_token
+            // state.refresh_token = _user.refresh_token
         }
     },
     extraReducers: (builder) => {
@@ -85,6 +103,13 @@ export const userSlice = createSlice({
                 state.cart = _user.cart || [];
                 state.access_token = access_token;
                 state.refresh_token = refresh_token;
+            })
+            .addCase(getUsers.fulfilled, (state, action) => {
+                state.listUser = action.payload
+            })
+            .addCase(deleteUser.fulfilled, (state, action) => {
+                const newUsers = state.listUser.filter(item => item._id !== action.payload)
+                state.listUser = newUsers
             })
     }
 });

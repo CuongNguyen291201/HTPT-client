@@ -15,6 +15,7 @@ import Cookies from 'js-cookie';
 import Account from './component/Account';
 import Collections from './page/collections/Collections';
 import Searchpage from './page/Searchpage';
+import Order from './page/Order';
 
 function App() {
     const dispatch = useDispatch();
@@ -43,6 +44,7 @@ function App() {
                 <Route path="/admin">
                     {/* <Route index element={<Home />} /> */}
                     <Route path="product" element={<Product />} />
+                    <Route path="order" element={<Order />} />
                     <Route path="user" element={<Users />} />
                 </Route>
             </Routes>

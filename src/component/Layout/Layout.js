@@ -14,7 +14,7 @@ const Layout = (props) => {
     const items = useMemo(() =>
         [
             getItem('Product', 'product', <PieChartOutlined />),
-            getItem('Statistic', 'statistic', <DesktopOutlined />),
+            getItem('Order', 'order', <DesktopOutlined />),
             getItem('User', 'user', <ContainerOutlined />),
         ]
         , [])
