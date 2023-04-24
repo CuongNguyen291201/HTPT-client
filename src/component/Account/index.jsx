@@ -14,7 +14,7 @@ import moment from 'moment'
 const Account = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { address, name, email, phone, _id } = useSelector((state) => state.userReducer)
+    const { role, address, name, email, phone, _id } = useSelector((state) => state.userReducer)
     const { orderByUser } = useSelector((state) => state.orderReducer)
 
     useEffect(() => {
@@ -23,7 +23,6 @@ const Account = () => {
 
     const onFinish = async (values) => {
         const data = await apiUpdateUserInfo({ _id, ...values });
-
         if (data) {
             dispatch(updateUserInfo(data));
         }
@@ -111,6 +110,8 @@ const Account = () => {
                         </Row>
 
                         <div className="logout" onClick={() => handleLogout()}>Logout</div>
+
+                        {role ? <div className="logout" onClick={() => navigate('/admin/product')}>Admin</div> : <></>}
 
                         <div>
                             <h2>Order History</h2>
