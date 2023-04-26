@@ -12,7 +12,7 @@ const SearchComponent = () => {
     const { productSearch } = useSelector(state => state.productReducer);
 
     const onSearch = async (value) => {
-        dispatch(searchProduct(value.trim()));
+        dispatch(searchProduct(value.toLowerCase().trim()));
     }
 
     return (

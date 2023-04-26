@@ -19,13 +19,12 @@ import Order from './page/Order';
 
 function App() {
     const dispatch = useDispatch();
-    const { _id, refresh_token } = useSelector((state) => state.userReducer)
+    const { _id, role, refresh_token } = useSelector((state) => state.userReducer)
 
     useEffect(() => {
         let _token = refresh_token || Cookies.get('token');
         dispatch(userRefeshToken(_token));
     }, [])
-
 
     return (
         <>
@@ -41,7 +40,7 @@ function App() {
                     <Route path="/search" element={<Searchpage />} />
                 </Route>
 
-                {_id && <Route path="/admin">
+                {_id && role && <Route path="/admin">
                     <Route path="product" element={<Product />} />
                     <Route path="order" element={<Order />} />
                     <Route path="user" element={<Users />} />
