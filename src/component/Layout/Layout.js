@@ -1,6 +1,6 @@
 import {
     ContainerOutlined, MenuFoldOutlined, PieChartOutlined,
-    MenuUnfoldOutlined, DesktopOutlined
+    MenuUnfoldOutlined, DesktopOutlined, AreaChartOutlined
 } from '@ant-design/icons';
 import { Button, Menu, Row, Col } from 'antd';
 import { useMemo, useState } from 'react';
@@ -16,6 +16,7 @@ const Layout = (props) => {
             getItem('Product', 'product', <PieChartOutlined />),
             getItem('Order', 'order', <DesktopOutlined />),
             getItem('User', 'user', <ContainerOutlined />),
+            getItem('Statistic', 'statistic', <AreaChartOutlined />)
         ]
         , [])
 

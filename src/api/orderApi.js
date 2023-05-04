@@ -23,3 +23,9 @@ export const apiDeleteOrder = async (orderId) => {
     if (status !== 200) return null;
     return data;
 }
+
+export const apiStatisticOrder = async (startDate, endDate) => {
+    const { data, status } = await POST_API("statistic-order", { startDate: startDate, endDate: endDate });
+    if (status !== 200) return null;
+    return data;
+}

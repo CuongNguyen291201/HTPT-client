@@ -16,6 +16,7 @@ import Account from './component/Account';
 import Collections from './page/collections/Collections';
 import Searchpage from './page/Searchpage';
 import Order from './page/Order';
+import Statistic from './page/Statistic';
 
 function App() {
     const dispatch = useDispatch();
@@ -44,6 +45,7 @@ function App() {
                     <Route path="product" element={<Product />} />
                     <Route path="order" element={<Order />} />
                     <Route path="user" element={<Users />} />
+                    <Route path="statistic" element={<Statistic />} />
                 </Route>}
             </Routes>
         </>

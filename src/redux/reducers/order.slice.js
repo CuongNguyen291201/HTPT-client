@@ -1,9 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { apiCreateOrder, apiDeleteOrder, apiGetOrders, apiGetOrdersByUser } from "../../api/orderApi";
+import { apiCreateOrder, apiDeleteOrder, apiGetOrders, apiGetOrdersByUser, apiStatisticOrder } from "../../api/orderApi";
 
 const initOrderState = {
     orders: [],
     orderByUser: [],
+    statisticOrder: [],
+    subtotalStatistic: 0,
     currentOrder: {},
     showModal: false,
     isUpdate: false
@@ -27,6 +29,11 @@ export const createOrder = createAsyncThunk("order/createOrder", async (order) =
 export const deleteOrder = createAsyncThunk("order/deleteOrder", async (orderId) => {
     await apiDeleteOrder(orderId);
     return orderId;
+})
+
+export const handleStatisticOrder = createAsyncThunk("order/handleStatisticOrder", async (startDate, endDate) => {
+    const data = await apiStatisticOrder(startDate, endDate);
+    return data;
 })
 
 export const productSlice = createSlice({
@@ -54,6 +61,16 @@ export const productSlice = createSlice({
             .addCase(deleteOrder.fulfilled, (state, action) => {
                 const newOrders = state.orders.filter(item => item._id !== action.payload)
                 state.orders = newOrders
+            })
+            .addCase(handleStatisticOrder.fulfilled, (state, action) => {
+                const statisticOrder = action.payload;
+                let subtotal = 0;
+                statisticOrder.map(item => {
+                    let totalItem = item.products.reduce((prev, current) => prev + current.price * current.quantity, 0);
+                    subtotal += totalItem;
+                })
+                state.statisticOrder = action.payload
+                state.subtotalStatistic = subtotal;
             })
 
     }
