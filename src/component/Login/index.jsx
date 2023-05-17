@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, notification } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import './style.scss'
 import Cookies from 'js-cookie';
@@ -18,9 +18,13 @@ const Login = () => {
 
     const onFinish = async (values) => {
         const { _user, access_token, refresh_token } = await apiUserLogin(values);
-        Cookies.set('token', refresh_token, { expires: 7 });
-        dispatch(loginUser({ _user, access_token, refresh_token }))
-        navigate('/')
+        if (_user) {
+            Cookies.set('token', refresh_token, { expires: 7 });
+            dispatch(loginUser({ _user, access_token, refresh_token }))
+            navigate('/')
+        } else {
+            notification.error({ message: "Tài khoản hoặc mật khẩu không đúng, bạn hãy kiểm tra lại!!" });
+        }
     };
 
     return (
@@ -38,7 +42,7 @@ const Login = () => {
                     rules={[
                         {
                             required: true,
-                            message: 'Please input your email!',
+                            message: 'Hãy nhập đúng email!',
                         },
                     ]}
                 >
@@ -49,27 +53,27 @@ const Login = () => {
                     rules={[
                         {
                             required: true,
-                            message: 'Please input your Password!',
+                            message: 'Hãy nhập đủ thông tin!',
                         },
                     ]}
                 >
                     <Input
                         prefix={<LockOutlined className="site-form-item-icon" />}
                         type="password"
-                        placeholder="Password"
+                        placeholder="Mật khẩu"
                     />
                 </Form.Item>
 
                 <Form.Item>
                     <Button type="primary" htmlType="submit" className="login-form-button">
-                        Log in
+                        Đăng nhập
                     </Button>
-                    Or <a href="/register">register now!</a>
+                    Hoặc <a href="/register">đăng ký ngay!</a>
                 </Form.Item>
             </Form>
 
             <div className="back-to-home">
-                <a href="/">Back to home</a>
+                <a href="/">Trang chủ</a>
             </div>
         </div>
     )

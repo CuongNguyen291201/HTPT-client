@@ -11,7 +11,7 @@ const { Meta } = Card;
 const CollectionList = () => {
     return (
         <div className="with-layout">
-            <p className="title-section">Collections</p>
+            <p className="title-section">Bộ sưu tập</p>
 
             <Row className="" justify="space-between" gutter={[8, 8]}>
                 {[1, 2, 3].map(item => {

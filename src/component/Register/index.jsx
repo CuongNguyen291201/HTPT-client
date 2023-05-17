@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, notification } from 'antd';
 import { UserOutlined, LockOutlined, MobileOutlined, EnvironmentOutlined, MailOutlined  } from '@ant-design/icons';
 import './style.scss'
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,9 +19,13 @@ const Register = () => {
 
     const onFinish = async (values) => {
         const { _user, access_token, refresh_token } = await apiUserRegister(values);
-        Cookies.set('token', refresh_token, { expires: 7 });
-        dispatch(registerUser({ _user, access_token, refresh_token }))
-        navigate('/')
+        if (_user) {
+            Cookies.set('token', refresh_token, { expires: 7 });
+            dispatch(registerUser({ _user, access_token, refresh_token }))
+            navigate('/')
+        } else {
+            notification.error({ message: "Có lỗi, bạn hãy kiểm tra lại!!" });
+        }
     };
 
     return (
@@ -39,18 +43,18 @@ const Register = () => {
                     rules={[
                         {
                             required: true,
-                            message: 'Please input your Username!',
+                            message: 'Hãy nhập đủ thông tin',
                         },
                     ]}
                 >
-                    <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+                    <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Tên" />
                 </Form.Item>
                 <Form.Item
                     name="email"
                     rules={[
                         {
                             required: true,
-                            message: 'Please input your Email!',
+                            message: 'Hãy nhập đủ thông tin',
                         },
                     ]}
                 >
@@ -61,44 +65,44 @@ const Register = () => {
                     rules={[
                         {
                             required: true,
-                            message: 'Please input your Address!',
+                            message: 'Hãy nhập đủ thông tin',
                         },
                     ]}
                 >
-                    <Input prefix={<EnvironmentOutlined className="site-form-item-icon" />} placeholder="Address" />
+                    <Input prefix={<EnvironmentOutlined className="site-form-item-icon" />} placeholder="Địa chỉ" />
                 </Form.Item>
                 <Form.Item
                     name="phone"
                     rules={[
                         {
                             required: true,
-                            message: 'Please input your Phone!',
+                            message: 'Hãy nhập đủ thông tin',
                         },
                     ]}
                 >
-                    <Input prefix={<MobileOutlined className="site-form-item-icon" />} placeholder="Phone" />
+                    <Input prefix={<MobileOutlined className="site-form-item-icon" />} placeholder="SĐT" />
                 </Form.Item>
                 <Form.Item
                     name="password"
                     rules={[
                         {
                             required: true,
-                            message: 'Please input your Password!',
+                            message: 'Hãy nhập đủ thông tin',
                         },
                     ]}
                 >
                     <Input
                         prefix={<LockOutlined className="site-form-item-icon" />}
                         type="password"
-                        placeholder="Password"
+                        placeholder="Mật khẩu"
                     />
                 </Form.Item>
 
                 <Form.Item>
                     <Button type="primary" htmlType="submit" className="login-form-button">
-                        Register
+                        Đăng ký
                     </Button>
-                    Or <a href="/login">login now!</a>
+                    Hoặc <a href="/login">đăng nhập ngay!</a>
                 </Form.Item>
             </Form>
         </div>

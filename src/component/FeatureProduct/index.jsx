@@ -14,7 +14,7 @@ const FeatureProduct = () => {
     
     return (
         <div className="with-layout">
-            <p className="title-section">Feature Product</p>
+            <p className="title-section">Sản phẩm nổi bật</p>
 
             <Row className="" justify="space-between" gutter={[8, 8]}>
                 {products && products.map(item => (
@@ -27,7 +27,7 @@ const FeatureProduct = () => {
                             >
                                 <Row>
                                     <h2 style={{ textAlign: 'center' }}>{item.name}</h2>
-                                    <Button style={{ marginLeft: 10 }}>Sale!</Button>
+                                    <Button style={{ marginLeft: 10 }}>Giảm giá!</Button>
                                 </Row>
                                 <Row>
                                     <p type="secondary">{`$${item.price}`}</p>

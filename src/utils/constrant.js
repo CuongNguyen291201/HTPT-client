@@ -4,7 +4,7 @@ export const MUSIC = 2;
 export const POSTER = 3;
 
 export const mapCategory = {
-    1: "Clothing",
-    2: "Music",
-    3: "Poster"
+    1: "Thời trang",
+    2: "Nhạc cụ",
+    3: "Áp phích"
 }
