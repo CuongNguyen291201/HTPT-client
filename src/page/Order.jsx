@@ -16,36 +16,36 @@ const Order = () => {
     return (
         <Layout>
             <div id="" style={{ padding: "20px" }}>
-                <h3>Order</h3>
+                <h3>Đơn hàng</h3>
                 <Row gutter={[8, 8]}>
                     <Col span={24} sm={24}>
                         <Card
                             size="small"
-                            title="Order"
+                            title="Đơn hàng"
                             className="product"
                             bodyStyle={{ height: 'calc(100vh - 150px)', overflow: 'auto' }}
                         >
                             <Table dataSource={orders} size="middle" pagination={false}>
-                                <Table.Column title="Order id" dataIndex="_id" />
-                                <Table.Column title="Quantity Item" dataIndex="products" render={(_, product) => <span>{product.products && product.products.length}</span>} />
-                                <Table.Column title="Products" dataIndex="products" render={(_, product) => (
+                                <Table.Column title="ID" dataIndex="_id" />
+                                <Table.Column title="Số lượng" dataIndex="products" render={(_, product) => <span>{product.products && product.products.length}</span>} />
+                                <Table.Column title="Sản phẩm" dataIndex="products" render={(_, product) => (
                                     product.products && product.products.map(item => <span>{item.name}, </span>)
                                 )} />
-                                <Table.Column title="Subtotal" dataIndex="products" render={(_, product) => {
+                                <Table.Column title="Tổng" dataIndex="products" render={(_, product) => {
                                     let subtotal = product.products.reduce((prev, current) => prev + current.price * current.quantity, 0);
                                     return (
                                         <span>${subtotal}</span>
                                     )
                                 }} />
-                                <Table.Column title="Date buy" dataIndex="createdAt" render={(_, createdAt) => <span>{moment(createdAt).format("DD-MM-YYYY")}</span>} />
+                                <Table.Column title="Ngày mua" dataIndex="createdAt" render={(_, createdAt) => <span>{moment(createdAt).format("DD-MM-YYYY")}</span>} />
                                 <Table.Column title="" render={(_, order) =>
                                     <Popconfirm
-                                        title="Are you sure to delete this order?"
+                                        title="Bạn chắc chắn xóa đơn hàng này?"
                                         onConfirm={() => dispatch(deleteOrder(order._id))}
-                                        okText="Yes"
-                                        cancelText="No"
+                                        okText="Đồng ý"
+                                        cancelText="Không"
                                     >
-                                        <Button>Delete</Button>
+                                        <Button>Xóa</Button>
                                     </Popconfirm>}
                                 />
                             </Table>

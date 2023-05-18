@@ -34,7 +34,7 @@ const MainNav = () => {
                         </div>
                         <div>
                             <a href="/cart">
-                                <Badge count={cart ? cart.length : 0}
+                                <Badge count={cart ? cart.reduce((prev, curr) => prev + curr.quantity, 0) : 0}
                                     style={{ backgroundColor: '#fff', color: '#999', boxShadow: '0 0 0 1px #d9d9d9 inset' }}
                                 >
                                     <ShoppingCartOutlined style={{ fontSize: 25, cursor: 'pointer', color: '#fff' }} />

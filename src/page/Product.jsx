@@ -17,33 +17,33 @@ const Product = () => {
     return (
         <Layout>
             <div id="" style={{ padding: "20px" }}>
-                <h3>Product</h3>
+                <h3>Sản phẩm</h3>
                 <Row gutter={[8, 8]}>
                     <Col span={24} sm={24}>
-                        <Button onClick={() => dispatch(showModal({ showModal: true }))}>Add</Button>
+                        <Button onClick={() => dispatch(showModal({ showModal: true }))}>Thêm</Button>
                         <ModalProduct />
                         <Card
                             size="small"
-                            title="Product"
+                            title="Sản phẩm"
                             className="product"
                             bodyStyle={{ height: 'calc(100vh - 150px)', overflow: 'auto' }}
                         >
                             <Table dataSource={products} size="middle" pagination={false}>
-                                <Table.Column title="Name" dataIndex="name" />
-                                <Table.Column title="Price" dataIndex="price" />
-                                <Table.Column title="Category" dataIndex="category" render={(_, product) => <span>{mapCategory[product.category]}</span>} />
-                                <Table.Column title="Description" dataIndex="desc" />
-                                <Table.Column title="Short description" dataIndex="shortDesc" />
-                                <Table.Column title="Image Sharing" render={(_, product) => <Image  width={200} src={product.image} />} />
-                                <Table.Column title="Sửa" render={(_, product) => <Button onClick={() => { dispatch(showModal({ showModal: true, isUpdate: true, currentProduct: product })) }}>Edit</Button>} />
+                                <Table.Column title="Tên" dataIndex="name" />
+                                <Table.Column title="Giá" dataIndex="price" />
+                                <Table.Column title="Danh mục" dataIndex="category" render={(_, product) => <span>{mapCategory[product.category]}</span>} />
+                                <Table.Column title="Mô tả" dataIndex="desc" />
+                                <Table.Column title="Mô tả ngắn" dataIndex="shortDesc" />
+                                <Table.Column title="Hình ảnh" render={(_, product) => <Image  width={200} src={product.image} />} />
+                                <Table.Column title="Sửa" render={(_, product) => <Button onClick={() => { dispatch(showModal({ showModal: true, isUpdate: true, currentProduct: product })) }}>Cập nhật</Button>} />
                                 <Table.Column title="Xóa" render={(_, product) =>
                                     <Popconfirm
-                                        title="Are you sure to delete this product?"
+                                        title="Bạn chắc chắn muốn xóa sản phẩm này?"
                                         onConfirm={() => dispatch(deleteProduct(product._id))}
-                                        okText="Yes"
-                                        cancelText="No"
+                                        okText="Đồng ý"
+                                        cancelText="Không"
                                     >
-                                        <Button>Delete</Button>
+                                        <Button>Xóa</Button>
                                     </Popconfirm>}
                                 />
                             </Table>

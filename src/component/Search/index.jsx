@@ -18,11 +18,11 @@ const SearchComponent = () => {
     return (
         <MainLayout>
             <div className="width-layout">
-                <div className="search-title">Search</div>
+                <div className="search-title">Tìm kiếm sản phẩm</div>
                 <Search
-                    placeholder="Name product.."
+                    placeholder="Tên sản phẩm ..."
                     allowClear
-                    enterButton="Search"
+                    enterButton="Tìm"
                     size="large"
                     onSearch={onSearch}
                 />

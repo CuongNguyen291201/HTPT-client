@@ -75,7 +75,7 @@ const Account = () => {
                                     <Row justify="space-around" gutter={[8, 8]}>
                                         <Col sm={24} lg={12}>
                                             <Form.Item name="name">
-                                                <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+                                                <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Tên" />
                                             </Form.Item>
                                             <Form.Item name="email">
                                                 <Input disabled={true} prefix={<MailOutlined className="site-form-item-icon" />} placeholder="Email" />
@@ -84,43 +84,43 @@ const Account = () => {
 
                                         <Col sm={24} lg={12}>
                                             <Form.Item name="address">
-                                                <Input prefix={<EnvironmentOutlined className="site-form-item-icon" />} placeholder="Address" />
+                                                <Input prefix={<EnvironmentOutlined className="site-form-item-icon" />} placeholder="Địa chỉ" />
                                             </Form.Item>
                                             <Form.Item
                                                 name="phone"
                                                 rules={[
                                                     {
                                                         required: true,
-                                                        message: 'Please input your Phone!',
+                                                        message: 'Hãy nhập đầy đủ thông tin',
                                                     },
                                                 ]}
                                             >
-                                                <Input prefix={<MobileOutlined className="site-form-item-icon" />} placeholder="Phone" />
+                                                <Input prefix={<MobileOutlined className="site-form-item-icon" />} placeholder="Điện thoại" />
                                             </Form.Item>
                                         </Col>
                                     </Row>
 
                                     <Form.Item>
                                         <Button type="primary" htmlType="submit" className="login-form-button">
-                                            Update
+                                            Cập nhật
                                         </Button>
                                     </Form.Item>
                                 </Form>
                             </Col>
                         </Row>
 
-                        <div className="logout" onClick={() => handleLogout()}>Logout</div>
+                        <div className="logout" onClick={() => handleLogout()}>Đăng xuất</div>
 
-                        {role ? <div className="logout" onClick={() => navigate('/admin/product')}>Admin</div> : <></>}
+                        {role ? <div className="logout" onClick={() => navigate('/admin/product')}>Quản lý site</div> : <></>}
 
                         <div>
-                            <h2>Order History</h2>
+                            <h2>Các đơn đặt hàng</h2>
                             <Row justify="space-around">
                                 <Col sm={24}>
                                     <Table dataSource={orderByUser} size="middle" pagination={false}>
-                                        <Table.Column title="Order id" dataIndex="_id" />
-                                        <Table.Column title="Quantity Item" dataIndex="products" render={(_, product) => <span>{product.products && product.products.length}</span>} />
-                                        <Table.Column title="Date buy" dataIndex="createdAt" render={(_, createdAt) => <span>{moment(createdAt).format("DD-MM-YYYY")}</span>} />
+                                        <Table.Column title="ID" dataIndex="_id" />
+                                        <Table.Column title="Số lượng sản phẩm" dataIndex="products" render={(_, product) => <span>{product.products && product.products.length}</span>} />
+                                        <Table.Column title="Ngày mua" dataIndex="createdAt" render={(_, createdAt) => <span>{moment(createdAt).format("DD-MM-YYYY")}</span>} />
                                     </Table>
                                 </Col>
                             </Row>

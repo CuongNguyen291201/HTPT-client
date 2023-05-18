@@ -65,8 +65,6 @@ const Cart = () => {
         }
     }
 
-    console.log('subTotal', subTotal, typeof subTotal)
-
     return (
         <MainLayout>
             <div className="width-content">
@@ -100,9 +98,9 @@ const Cart = () => {
 
                     <Col sm={24} lg={10}>
                         <div className="cart-item cart-subtotal">
-                            <h2>Order Summary</h2>
+                            <h2>Thông tin đơn hàng</h2>
                             <div className="total-price">
-                                <span className="title-total">Total: {subTotal}$</span>
+                                <span className="title-total">Tổng tiền: {subTotal}$</span>
                             </div>
                         </div>
 

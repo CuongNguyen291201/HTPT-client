@@ -1,4 +1,4 @@
-import { Button, Col, Descriptions, Row, Typography } from 'antd'
+import { Button, Col, Descriptions, Row, Typography, notification } from 'antd'
 import React, { useEffect } from 'react'
 import MainLayout from '../MainLayout/MainLayout'
 import './style.scss'
@@ -52,7 +52,8 @@ const ProductDetail = () => {
         }
         const data = await apiUpdateCart(_cart, user._id);
         if (data && data.cart) {
-            dispatch(updateCart(data.cart))
+            dispatch(updateCart(data.cart));
+            notification.success({ message: "Đã thêm vào giỏ hàng!" });
         }
     }
 
@@ -66,11 +67,11 @@ const ProductDetail = () => {
 
                     <Col sm={24} lg={12}>
                         <div className="main-product">
-                            <div className="name-product">Name: {product.name}</div>
+                            <div className="name-product">Tên sản phẩm: {product.name}</div>
                             <div className="price-description">${product.price}</div>
                             <div className="product-description">{product.desc}</div>
                             {user._id && <Button type="primary" onClick={() => handleAddCart()}>
-                                Add To Cart
+                                Thêm
                             </Button>}
                         </div>
                     </Col>

@@ -46,7 +46,7 @@ const ModalProduct = () => {
             dispatch(createProduct({ product, showModal: false }))
         }
 
-        notification.success({ message: `${isUpdate ? "Update" : "Create"} success` })
+        notification.success({ message: `${isUpdate ? "Cập nhật" : "Thêm mới"} thành công!` })
         form.resetFields();
         setImage('');
         setImageId("");
@@ -77,7 +77,7 @@ const ModalProduct = () => {
     return (
         <>
             <Modal
-                title="Product"
+                title="Sản phẩm"
                 open={open}
                 footer={null}
                 onCancel={() => {
@@ -96,41 +96,41 @@ const ModalProduct = () => {
                 >
                     <Row gutter={[8, 8]}>
                         <Col span={24} md={12} sm={24}>
-                            <Form.Item name="name" label="Name" {...layout}>
+                            <Form.Item name="name" label="Tên" {...layout}>
                                 <Input />
                             </Form.Item>
                         </Col>
                         <Col span={24} md={12} sm={24}>
-                            <Form.Item name="price" label="Price" {...layout}>
+                            <Form.Item name="price" label="Giá" {...layout}>
                                 <Input />
                             </Form.Item>
                         </Col>
                         <Col span={24} md={12} sm={24}>
-                            <Form.Item name="category" label="Category" {...layout}>
+                            <Form.Item name="category" label="Danh mục" {...layout}>
                                 <Select
                                     name="category"
                                     options={[
-                                        { value: 1, label: 'Clothing' },
-                                        { value: 2, label: 'Music' },
-                                        { value: 3, label: 'Poster' },
+                                        { value: 1, label: 'Thời trang' },
+                                        { value: 2, label: 'Nhạc cụ' },
+                                        { value: 3, label: 'Áp phích' },
                                     ]}
                                 />
                             </Form.Item>
                         </Col>
                         <Col span={24} md={12} sm={24}>
-                            <Form.Item name="desc" label="Desciption" {...layout}>
+                            <Form.Item name="desc" label="Mô tả" {...layout}>
                                 <Input />
                             </Form.Item>
                         </Col>
                         <Col span={24} md={12} sm={24}>
-                            <Form.Item name="shortDesc" label="Short Description" {...layout}>
+                            <Form.Item name="shortDesc" label="Mô tả ngắn" {...layout}>
                                 <Input />
                             </Form.Item>
                         </Col>
                     </Row>
                     <Row gutter={[8, 8]} style={{}}>
                         <Col span={24} md={12} sm={24}>
-                            <Form.Item label="Image" {...layout}>
+                            <Form.Item label="Ảnh" {...layout}>
                                 {image && <Image src={image} width={200} />}
                                 {
                                     !image ?
@@ -140,21 +140,21 @@ const ModalProduct = () => {
                                                 setImageId(image.public_id)
                                             }}
                                             onUploadError={() => {
-                                                notification.error({ message: "Error, uploaded fail" })
+                                                notification.error({ message: "Lỗi, tải ảnh không thành công!" })
                                             }}
                                             onUploadSuccess={() => {
-                                                notification.success({ message: "Upload success" })
+                                                notification.success({ message: "Tải ảnh thành công!" })
                                             }}
                                         />
                                         :
-                                        <Button onClick={handleRemoveImage}>Remove Image</Button>
+                                        <Button onClick={handleRemoveImage}>Xóa ảnh</Button>
                                 }
                             </Form.Item>
                         </Col>
                     </Row>
 
                     <Button htmlType="submit" type="primary">
-                        {isUpdate ? "Update" : "Create"}
+                        {isUpdate ? "Cập nhật" : "Thêm"}
                     </Button>
                 </Form>
             </Modal>

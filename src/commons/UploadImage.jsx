@@ -51,7 +51,7 @@ const UploadImage = (props) => {
                 style={{ display: "none" }}
             />
             <label htmlFor={id}>
-                <span style={{ border: "1px solid #bae7ff", padding: "5px", color: "#1890ff", cursor: "pointer" }}>{label || 'Upload Image'}</span>
+                <span style={{ border: "1px solid #bae7ff", padding: "5px", color: "#1890ff", cursor: "pointer" }}>{label || 'Tải ảnh'}</span>
             </label>
         </div>
     )

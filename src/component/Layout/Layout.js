@@ -13,10 +13,10 @@ const Layout = (props) => {
     const navigate = useNavigate();
     const items = useMemo(() =>
         [
-            getItem('Product', 'product', <PieChartOutlined />),
-            getItem('Order', 'order', <DesktopOutlined />),
-            getItem('User', 'user', <ContainerOutlined />),
-            getItem('Statistic', 'statistic', <AreaChartOutlined />)
+            getItem('Sản phẩm', 'product', <PieChartOutlined />),
+            getItem('Đơn hàng', 'order', <DesktopOutlined />),
+            getItem('Khách hàng', 'user', <ContainerOutlined />),
+            getItem('Thống kê', 'statistic', <AreaChartOutlined />)
         ]
         , [])
 
@@ -29,9 +29,9 @@ const Layout = (props) => {
         <>
             <Row gutter={16} style={{ margin: "unset", height: "100vh" }}>
                 <Col span={collapsed ? 2 : 4} style={{ padding: "unset" }}>
-                    <h3 style={{ color: "#fff" }}>Admin Dashboard</h3>
+                    <h3 style={{ color: "#fff" }}>Quản lý site</h3>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                        {!collapsed && <p style={{ color: "#fff" }}>Show and Hide</p>}
+                        {!collapsed && <p style={{ color: "#fff" }}>Mở hoặc ẩn</p>}
                         <Button type="primary" onClick={toggleCollapsed}>
                             {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
                         </Button>
