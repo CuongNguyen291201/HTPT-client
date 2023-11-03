@@ -8,7 +8,7 @@ import { apiUpdateUserInfo, apiUserLogout } from '../../api/userApi'
 import { logoutUser, updateUserInfo } from '../../redux/reducers/user.slice'
 import MainLayout from '../MainLayout/MainLayout'
 import './style.scss'
-import { getOrderByUser } from '../../redux/reducers/order.slice'
+// import { getOrderByUser } from '../../redux/reducers/order.slice'
 import moment from 'moment'
 
 const Account = () => {
@@ -17,16 +17,16 @@ const Account = () => {
     const { role, address, name, email, phone, _id } = useSelector((state) => state.userReducer)
     const { orderByUser } = useSelector((state) => state.orderReducer)
 
-    useEffect(() => {
-        dispatch(getOrderByUser(_id));
-    }, [_id])
+    // useEffect(() => {
+    //     dispatch(getOrderByUser(_id));
+    // }, [_id])
 
-    const onFinish = async (values) => {
-        const data = await apiUpdateUserInfo({ _id, ...values });
-        if (data) {
-            dispatch(updateUserInfo(data));
-        }
-    }
+    // const onFinish = async (values) => {
+    //     const data = await apiUpdateUserInfo({ _id, ...values });
+    //     if (data) {
+    //         dispatch(updateUserInfo(data));
+    //     }
+    // }
 
     const handleLogout = async () => {
         Cookies.remove('token');
@@ -70,7 +70,7 @@ const Account = () => {
                                             value: name
                                         }
                                     ]}
-                                    onFinish={onFinish}
+                                    // onFinish={onFinish}
                                 >
                                     <Row justify="space-around" gutter={[8, 8]}>
                                         <Col sm={24} lg={12}>
@@ -100,11 +100,11 @@ const Account = () => {
                                         </Col>
                                     </Row>
 
-                                    <Form.Item>
+                                    {/* <Form.Item>
                                         <Button type="primary" htmlType="submit" className="login-form-button">
                                             Cập nhật
                                         </Button>
-                                    </Form.Item>
+                                    </Form.Item> */}
                                 </Form>
                             </Col>
                         </Row>
@@ -113,18 +113,6 @@ const Account = () => {
 
                         {role ? <div className="logout" onClick={() => navigate('/admin/product')}>Quản lý site</div> : <></>}
 
-                        <div>
-                            <h2>Các đơn đặt hàng</h2>
-                            <Row justify="space-around">
-                                <Col sm={24}>
-                                    <Table dataSource={orderByUser} size="middle" pagination={false}>
-                                        <Table.Column title="ID" dataIndex="_id" />
-                                        <Table.Column title="Số lượng sản phẩm" dataIndex="products" render={(_, product) => <span>{product.products && product.products.length}</span>} />
-                                        <Table.Column title="Ngày mua" dataIndex="createdAt" render={(_, createdAt) => <span>{moment(createdAt).format("DD-MM-YYYY")}</span>} />
-                                    </Table>
-                                </Col>
-                            </Row>
-                        </div>
                     </div>
                 </div>
             </div>

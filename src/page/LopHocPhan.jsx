@@ -1,13 +1,13 @@
 import React from 'react'
-import CollectionNotif from '../component/CollectionNotif'
 import MainLayout from '../component/MainLayout/MainLayout'
+import ListLopHocPhan from '../component/LopHocPhan/ListLopHocPhan'
 
-const Homepage = () => {
+const LopHocPhan = () => {
     return (
         <MainLayout>
-            <CollectionNotif />
+            <ListLopHocPhan />
         </MainLayout>
     )
 }
 
-export default Homepage
+export default LopHocPhan

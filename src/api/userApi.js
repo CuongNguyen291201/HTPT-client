@@ -25,26 +25,8 @@ export const apiUserRefreshToken = async (token) => {
     return data;
 }
 
-export const apiUpdateCart = async (cart, userId) => {
-    const { data, status } = await POST_API("add-cart", { cart: cart, userId: userId });
-    if (status !== 200) return {};
-    return data;
-}
-
 export const apiUpdateUserInfo = async (userInfo) => {
     const { data, status } = await POST_API("update-user-info", { userInfo: userInfo });
-    if (status !== 200) return null;
-    return data;
-}
-
-export const apiGetListUser = async () => {
-    const { data, status } = await POST_API("get-list-user", {});
-    if (status !== 200) return [];
-    return data;
-}
-
-export const apiDeleteUser = async (userId) => {
-    const { data, status } = await POST_API("delete-user", { userId: userId });
     if (status !== 200) return null;
     return data;
 }

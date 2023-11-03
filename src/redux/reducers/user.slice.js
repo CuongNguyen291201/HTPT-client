@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { apiDeleteUser, apiGetListUser, apiUserRefreshToken } from "../../api/userApi";
+import { apiUserRefreshToken } from "../../api/userApi";
 
 const initUserState = {
     _id: "",
@@ -18,16 +18,6 @@ const initUserState = {
 export const userRefeshToken = createAsyncThunk("user/userRefeshToken", async (token) => {
     const { _user, access_token, refresh_token } = await apiUserRefreshToken(token);
     return { _user, access_token, refresh_token };
-})
-
-export const getUsers = createAsyncThunk("user/getUsers", async () => {
-    const data = await apiGetListUser();
-    return data;
-})
-
-export const deleteUser = createAsyncThunk("order/deleteUser", async (userId) => {
-    await apiDeleteUser(userId);
-    return userId;
 })
 
 export const userSlice = createSlice({
@@ -72,9 +62,6 @@ export const userSlice = createSlice({
             state.access_token = ""
             state.refresh_token = ""
         },
-        updateCart: (state, action) => {
-            state.cart = action.payload
-        },
         updateUserInfo: (state, action) => {
             const _user = action.payload
             state._id = _user?._id;
@@ -104,15 +91,8 @@ export const userSlice = createSlice({
                 state.access_token = access_token;
                 state.refresh_token = refresh_token;
             })
-            .addCase(getUsers.fulfilled, (state, action) => {
-                state.listUser = action.payload
-            })
-            .addCase(deleteUser.fulfilled, (state, action) => {
-                const newUsers = state.listUser.filter(item => item._id !== action.payload)
-                state.listUser = newUsers
-            })
     }
 });
 
-export const { updateUserInfo, registerUser, loginUser, logoutUser, updateCart } = userSlice.actions;
+export const { updateUserInfo, registerUser, loginUser, logoutUser } = userSlice.actions;
 export default userSlice.reducer;
