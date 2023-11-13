@@ -6,6 +6,12 @@ export const apiGetLichHoc = async () => {
     return data;
 }
 
+export const apiGetDangKyById = async (entity) => {
+    const { data, status } = await POST_API("lich-hoc/get-by-id", { entity: entity });
+    if (status !== 200) return [];
+    return data;
+}
+
 export const apiCreateLichHoc = async (entity) => {
     const { data, status } = await POST_API("lich-hoc/create", { entity: entity });
     if (status !== 200) return [];
@@ -18,8 +24,8 @@ export const apiUpdateLichHoc = async (entity) => {
     return data;
 }
 
-export const apiDeleteLichHoc = async (id) => {
-    const { data, status } = await DELETE_API("lich-hoc/delete", { id: id });
+export const apiDeleteLichHoc = async (entity) => {
+    const { data, status } = await DELETE_API("lich-hoc/delete", { entity: entity });
     if (status !== 200) return [];
     return data;
 }

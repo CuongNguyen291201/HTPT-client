@@ -1,4 +1,4 @@
-const API_PORT = 8090;
+const API_PORT = 8080;
 
 export const POST_API = async (url, reqBody) => {
     let res = await fetch(`http://localhost:${API_PORT}/api/${url}`, {
@@ -52,13 +52,12 @@ export const DELETE_API = async (url, reqBody) => {
 };
 
 export const GET_API = async (url, body) => {
-    let res = await fetch(`http://localhost:${API_PORT}/api/${url}`, {
+    const res = await fetch(`http://localhost:${API_PORT}/api/${url}`, {
         method: "GET",
         headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(body),
     });
     let data = await res.json();
     let status = res.status;

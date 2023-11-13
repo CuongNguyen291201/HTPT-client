@@ -1,60 +1,53 @@
 import { Button, Col, Form, Input, Modal, notification, Row, Select } from "antd"
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { createProduct, showModal, updateProduct } from "../../redux/reducers/product.slice";
+import { create, showModal, update } from "../../redux/reducers/lophocphan.slice";
 
 const ModalLopHocPhan = () => {
     const [form] = Form.useForm();
-    const [image, setImage] = useState("");
-    const [imageId, setImageId] = useState("");
     const [key, setKey] = useState(Math.random());
 
-    const open = useSelector((state) => state.productReducer.showModal)
-    const { isUpdate, currentProduct } = useSelector((state) => state.productReducer)
+    const open = useSelector((state) => state.lopHocPhanReducer.showModal)
+    const { isUpdate, currentEntity } = useSelector((state) => state.lopHocPhanReducer)
+    const { chinhanh } = useSelector((state) => state.chiNhanhReducer)
+    const { monhoc } = useSelector((state) => state.monHocReducer)
+
     const dispatch = useDispatch()
 
+    const optionCN = chinhanh.reduce((prev, item) => [...prev, { value: item.id, label: item.ten }], []);
+    const optionMH = monhoc.reduce((prev, item) => [...prev, { value: item.id, label: item.ten }], []);
+
+
     useEffect(() => {
-        if (currentProduct) {
+        if (currentEntity) {
             form.setFieldsValue({
-                name: currentProduct.name,
-                price: currentProduct.price,
-                desc: currentProduct.desc,
-                shortDesc: currentProduct.shortDesc,
-                category: currentProduct.category,
+                svToiDa: currentEntity.svToiDa,
+                namHoc: currentEntity.namHoc,
+                hocKy: currentEntity.hocKy,
+                chinhanh: currentEntity?.chiNhanh?.id,
+                monhoc: currentEntity?.monHoc?.id
             })
-            setImage(currentProduct.image)
-            setImageId(currentProduct.imageId)
         }
-    }, [currentProduct])
+    }, [currentEntity])
 
     const onHandleSubmit = (values) => {
-        const product = {
-            name: values.name,
-            desc: values.desc,
-            shortDesc: values.shortDesc,
-            category: values.category,
-            price: values.price,
-            image: image,
-            imageId: imageId
+        const entity = {
+            svToiDa: +values.svToiDa,
+            namHoc: values.namHoc,
+            hocKy: +values.hocKy,
+            idChiNhanh: values.chinhanh,
+            idMonHoc: values.monhoc
         }
 
         if (isUpdate) {
-            dispatch(updateProduct({ product: { _id: currentProduct._id, ...product }, showModal: false }))
+            dispatch(update({ entity: { id: currentEntity.id, ...entity }, showModal: false }))
         } else {
-            dispatch(createProduct({ product, showModal: false }))
+            dispatch(create({ entity, showModal: false }))
         }
 
         notification.success({ message: `${isUpdate ? "Cập nhật" : "Thêm mới"} thành công!` })
         form.resetFields();
-        setImage('');
-        setImageId("");
     }
-
-    // const handleRemoveImage = useCallback(async () => {
-    //     await apiDeleteImageProduct(imageId);
-    //     setImage("");
-    //     setImageId("");
-    // }, [imageId])
 
     const layout = {
         labelCol: {
@@ -75,13 +68,11 @@ const ModalLopHocPhan = () => {
     return (
         <>
             <Modal
-                title="Chuyên ngành"
+                title="Lớp học phần"
                 open={open}
                 footer={null}
                 onCancel={() => {
-                    isUpdate ? dispatch(showModal({ showModal: false, isUpdate: false, currentProduct: {} })) : dispatch(showModal({ showModal: false }));
-                    setImage('');
-                    setImageId("");
+                    isUpdate ? dispatch(showModal({ showModal: false, isUpdate: false, currentEntity: {} })) : dispatch(showModal({ showModal: false }));
                     setKey(Math.random());
                     form.resetFields();
                 }}
@@ -94,19 +85,19 @@ const ModalLopHocPhan = () => {
                 >
                     <Row gutter={[8, 8]}>
                         <Col span={24} md={12} sm={24}>
-                            <Form.Item name="svtoida" label="Số sinh viên tối đa" {...layout}>
+                            <Form.Item name="svToiDa" label="Số sinh viên tối đa" {...layout}>
                                 <Input />
                             </Form.Item>
                         </Col>
 
                         <Col span={24} md={12} sm={24}>
-                            <Form.Item name="namhoc" label="Năm học" {...layout}>
+                            <Form.Item name="namHoc" label="Năm học" {...layout}>
                                 <Input />
                             </Form.Item>
                         </Col>
 
                         <Col span={24} md={12} sm={24}>
-                            <Form.Item name="hocky" label="Học kỳ" {...layout}>
+                            <Form.Item name="hocKy" label="Học kỳ" {...layout}>
                                 <Input />
                             </Form.Item>
                         </Col>
@@ -115,11 +106,7 @@ const ModalLopHocPhan = () => {
                             <Form.Item name="monhoc" label="Môn học" {...layout}>
                                 <Select
                                     name="monhoc"
-                                    options={[
-                                        { value: 1, label: 'Thời trang' },
-                                        { value: 2, label: 'Nhạc cụ' },
-                                        { value: 3, label: 'Áp phích' },
-                                    ]}
+                                    options={optionMH}
                                 />
                             </Form.Item>
                         </Col>
@@ -128,11 +115,7 @@ const ModalLopHocPhan = () => {
                             <Form.Item name="chinhanh" label="Chi nhánh" {...layout}>
                                 <Select
                                     name="chinhanh"
-                                    options={[
-                                        { value: 1, label: 'Thời trang' },
-                                        { value: 2, label: 'Nhạc cụ' },
-                                        { value: 3, label: 'Áp phích' },
-                                    ]}
+                                    options={optionCN}
                                 />
                             </Form.Item>
                         </Col>

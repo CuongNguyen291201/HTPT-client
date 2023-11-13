@@ -6,6 +6,12 @@ export const apiGetDangKy = async () => {
     return data;
 }
 
+export const apiGetDangKyById = async () => {
+    const { data, status } = await POST_API("dang-ky/get-by-id", { entity: entity });
+    if (status !== 200) return [];
+    return data;
+}
+
 export const apiCreateDangKy = async (entity) => {
     const { data, status } = await POST_API("dang-ky/create", { entity: entity });
     if (status !== 200) return [];
@@ -18,8 +24,8 @@ export const apiUpdateDangKy = async (entity) => {
     return data;
 }
 
-export const apiDeleteDangKy = async (id) => {
-    const { data, status } = await DELETE_API("dang-ky/delete", { id: id });
+export const apiDeleteDangKy = async (entity) => {
+    const { data, status } = await DELETE_API("dang-ky/delete", { entity: entity });
     if (status !== 200) return [];
     return data;
 }

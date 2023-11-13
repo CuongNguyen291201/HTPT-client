@@ -1,7 +1,7 @@
 import { Button, Col, Form, Input, Modal, notification, Row, Select } from "antd"
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { createProduct, showModal, updateProduct } from "../../redux/reducers/product.slice";
+import { create, showModal, update } from "../../redux/reducers/lichhoc.slice";
 
 const ModalQuanLyLichHoc = () => {
     const [form] = Form.useForm();
@@ -9,26 +9,26 @@ const ModalQuanLyLichHoc = () => {
     const [imageId, setImageId] = useState("");
     const [key, setKey] = useState(Math.random());
 
-    const open = useSelector((state) => state.productReducer.showModal)
-    const { isUpdate, currentProduct } = useSelector((state) => state.productReducer)
+    const open = useSelector((state) => state.lichHocReducer.showModal)
+    const { isUpdate, currentEntity } = useSelector((state) => state.lichHocReducer)
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if (currentProduct) {
+        if (currentEntity) {
             form.setFieldsValue({
-                name: currentProduct.name,
-                price: currentProduct.price,
-                desc: currentProduct.desc,
-                shortDesc: currentProduct.shortDesc,
-                category: currentProduct.category,
+                name: currentEntity.name,
+                price: currentEntity.price,
+                desc: currentEntity.desc,
+                shortDesc: currentEntity.shortDesc,
+                category: currentEntity.category,
             })
-            setImage(currentProduct.image)
-            setImageId(currentProduct.imageId)
+            // setImage(currentEntity.image)
+            // setImageId(currentEntity.imageId)
         }
-    }, [currentProduct])
+    }, [currentEntity])
 
     const onHandleSubmit = (values) => {
-        const product = {
+        const entity = {
             name: values.name,
             desc: values.desc,
             shortDesc: values.shortDesc,
@@ -39,15 +39,15 @@ const ModalQuanLyLichHoc = () => {
         }
 
         if (isUpdate) {
-            dispatch(updateProduct({ product: { _id: currentProduct._id, ...product }, showModal: false }))
+            dispatch(update({ entity: { id: currentEntity.id, ...entity }, showModal: false }))
         } else {
-            dispatch(createProduct({ product, showModal: false }))
+            dispatch(create({ entity, showModal: false }))
         }
 
         notification.success({ message: `${isUpdate ? "Cập nhật" : "Thêm mới"} thành công!` })
         form.resetFields();
-        setImage('');
-        setImageId("");
+        // setImage('');
+        // setImageId("");
     }
 
     // const handleRemoveImage = useCallback(async () => {
@@ -79,9 +79,9 @@ const ModalQuanLyLichHoc = () => {
                 open={open}
                 footer={null}
                 onCancel={() => {
-                    isUpdate ? dispatch(showModal({ showModal: false, isUpdate: false, currentProduct: {} })) : dispatch(showModal({ showModal: false }));
-                    setImage('');
-                    setImageId("");
+                    isUpdate ? dispatch(showModal({ showModal: false, isUpdate: false, currentEntity: {} })) : dispatch(showModal({ showModal: false }));
+                    // setImage('');
+                    // setImageId("");
                     setKey(Math.random());
                     form.resetFields();
                 }}

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { apiCreateProduct, apiDeleteProduct, apiGetProducts, apiUpdateProduct } from "../../api/productApi";
+import { apiCreateLichHoc, apiDeleteLichHoc, apiGetLichHoc, apiUpdateLichHoc } from "../../api/lichHocApi";
 
 const initEntityState = {
     lichhoc: [],
@@ -8,14 +8,14 @@ const initEntityState = {
     isUpdate: false
 }
 
-export const fetchData = createAsyncThunk("lichhoc/fetchData", async () => {
-    const entity = await apiGetProducts();
+export const fetchDataLH = createAsyncThunk("lichhoc/fetchDataLH", async () => {
+    const entity = await apiGetLichHoc();
     return entity;
 })
 
 export const create = createAsyncThunk("lichhoc/create", async (args) => {
     const { entity, showModal } = args;
-    const _entity = await apiCreateProduct(entity);
+    const _entity = await apiCreateLichHoc(entity);
     return {
         _entity,
         showModal
@@ -24,7 +24,7 @@ export const create = createAsyncThunk("lichhoc/create", async (args) => {
 
 export const update = createAsyncThunk("lichhoc/update", async (args) => {
     const { entity, showModal } = args;
-    const entityUpdate = await apiUpdateProduct(entity);
+    const entityUpdate = await apiUpdateLichHoc(entity);
     return {
         entityUpdate,
         showModal
@@ -32,7 +32,7 @@ export const update = createAsyncThunk("lichhoc/update", async (args) => {
 })
 
 export const deleteData = createAsyncThunk("lichhoc/deleteData", async (id) => {
-    await apiDeleteProduct(id);
+    await apiDeleteLichHoc(id);
     return id;
 })
 
@@ -48,7 +48,7 @@ export const lichHocSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(fetchData.fulfilled, (state, action) => {
+            .addCase(fetchDataLH.fulfilled, (state, action) => {
                 state.lichhoc = action.payload 
             })
             .addCase(create.fulfilled, (state, action) => {

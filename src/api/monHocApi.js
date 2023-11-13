@@ -6,20 +6,26 @@ export const apiGetMonHoc = async () => {
     return data;
 }
 
+export const apiGetMonHocById = async (entity) => {
+    const { data, status } = await POST_API("mon-hoc/get-by-id", { ...entity });
+    if (status !== 200) return [];
+    return data;
+}
+
 export const apiCreateMonHoc = async (entity) => {
-    const { data, status } = await POST_API("mon-hoc/create", { entity: entity });
+    const { data, status } = await POST_API("mon-hoc/create", { ...entity });
     if (status !== 200) return [];
     return data;
 }
 
 export const apiUpdateMonHoc = async (entity) => {
-    const { data, status } = await PUT_API("mon-hoc/update", { entity: entity });
+    const { data, status } = await PUT_API("mon-hoc/update", { ...entity });
     if (status !== 200) return [];
     return data;
 }
 
-export const apiDeleteMonHoc = async (id) => {
-    const { data, status } = await DELETE_API("mon-hoc/delete", { id: id });
+export const apiDeleteMonHoc = async (entity) => {
+    const { data, status } = await DELETE_API("mon-hoc/delete", { ...entity });
     if (status !== 200) return [];
     return data;
 }

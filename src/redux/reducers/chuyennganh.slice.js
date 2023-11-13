@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { apiCreateProduct, apiDeleteProduct, apiGetProducts, apiUpdateProduct } from "../../api/productApi";
+import { apiCreateChuyenNganh, apiDeleteChuyenNganh, apiGetChuyenNganh, apiUpdateChuyenNganh } from "../../api/chuyenNganhApi";
 
 const initEntityState = {
     chuyennganh: [],
@@ -8,14 +8,14 @@ const initEntityState = {
     isUpdate: false
 }
 
-export const fetchData = createAsyncThunk("chuyennganh/fetchData", async () => {
-    const entity = await apiGetProducts();
+export const fetchDataCN = createAsyncThunk("chuyennganh/fetchDataCN", async () => {
+    const entity = await apiGetChuyenNganh();
     return entity;
 })
 
 export const create = createAsyncThunk("chuyennganh/create", async (args) => {
     const { entity, showModal } = args;
-    const _entity = await apiCreateProduct(entity);
+    const _entity = await apiCreateChuyenNganh(entity);
     return {
         _entity,
         showModal
@@ -24,16 +24,16 @@ export const create = createAsyncThunk("chuyennganh/create", async (args) => {
 
 export const update = createAsyncThunk("chuyennganh/update", async (args) => {
     const { entity, showModal } = args;
-    const entityUpdate = await apiUpdateProduct(entity);
+    const entityUpdate = await apiUpdateChuyenNganh(entity);
     return {
         entityUpdate,
         showModal
     };
 })
 
-export const deleteData = createAsyncThunk("chuyennganh/deleteData", async (id) => {
-    await apiDeleteProduct(id);
-    return id;
+export const deleteData = createAsyncThunk("chuyennganh/deleteData", async (entity) => {
+    await apiDeleteChuyenNganh(entity);
+    return entity?.id;
 })
 
 export const chuyenNganhSlice = createSlice({
@@ -48,19 +48,19 @@ export const chuyenNganhSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(fetchData.fulfilled, (state, action) => {
+            .addCase(fetchDataCN.fulfilled, (state, action) => {
                 state.chuyennganh = action.payload 
             })
             .addCase(create.fulfilled, (state, action) => {
-                const newData = [...state.chuyennganh, action.payload._monhoc]
+                const newData = [...state.chuyennganh, action.payload._entity]
                 state.chuyennganh = newData
                 state.showModal = action.payload.showModal
             })
             .addCase(update.fulfilled, (state, action) => {
                 state.showModal = action.payload.showModal
                 state.chuyennganh = state.chuyennganh.map(item => {
-                    if (item.id === action.payload.monHocUpdate.id) {
-                        item = action.payload.monHocUpdate;
+                    if (item.id === action.payload.entityUpdate.id) {
+                        item = action.payload.entityUpdate;
                     }
                     return item;
                 })

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { apiCreateProduct, apiDeleteProduct, apiGetProducts, apiUpdateProduct } from "../../api/productApi";
+import { apiCreateMonHoc, apiDeleteMonHoc, apiGetMonHoc, apiUpdateMonHoc } from "../../api/monHocApi";
 
 const initEntityState = {
     monhoc: [],
@@ -8,14 +8,14 @@ const initEntityState = {
     isUpdate: false
 }
 
-export const fetchData = createAsyncThunk("monhoc/fetchData", async () => {
-    const entity = await apiGetProducts();
+export const fetchDataMH = createAsyncThunk("monhoc/fetchDataMH", async () => {
+    const entity = await apiGetMonHoc();
     return entity;
 })
 
 export const create = createAsyncThunk("monhoc/create", async (args) => {
     const { entity, showModal } = args;
-    const _entity = await apiCreateProduct(entity);
+    const _entity = await apiCreateMonHoc(entity);
     return {
         _entity,
         showModal
@@ -24,16 +24,16 @@ export const create = createAsyncThunk("monhoc/create", async (args) => {
 
 export const update = createAsyncThunk("monhoc/update", async (args) => {
     const { entity, showModal } = args;
-    const entityUpdate = await apiUpdateProduct(entity);
+    const entityUpdate = await apiUpdateMonHoc(entity);
     return {
         entityUpdate,
         showModal
     };
 })
 
-export const deleteData = createAsyncThunk("monhoc/deleteData", async (id) => {
-    await apiDeleteProduct(id);
-    return id;
+export const deleteData = createAsyncThunk("monhoc/deleteData", async (entity) => {
+    await apiDeleteMonHoc(entity);
+    return entity.id;
 })
 
 export const monHocSlice = createSlice({
@@ -41,26 +41,29 @@ export const monHocSlice = createSlice({
     initialState: initEntityState,
     reducers: {
         showModal: (state, action) => {
+
+            console.log('action.payload', action.payload)
+
             state.showModal = action.payload.showModal
             state.isUpdate = action.payload.isUpdate
-            state.currentEntity = action.payload.currentEntity
+            state.currentEntity = { ...action.payload.currentEntity }
         }
     },
     extraReducers: (builder) => {
         builder
-            .addCase(fetchData.fulfilled, (state, action) => {
-                state.monhoc = action.payload 
+            .addCase(fetchDataMH.fulfilled, (state, action) => {
+                state.monhoc = action.payload
             })
             .addCase(create.fulfilled, (state, action) => {
-                const newData = [...state.monhoc, action.payload._monhoc]
+                const newData = [...state.monhoc, action.payload._entity]
                 state.monhoc = newData
                 state.showModal = action.payload.showModal
             })
             .addCase(update.fulfilled, (state, action) => {
                 state.showModal = action.payload.showModal
                 state.monhoc = state.monhoc.map(item => {
-                    if (item.id === action.payload.monHocUpdate.id) {
-                        item = action.payload.monHocUpdate;
+                    if (item.id === action.payload.entityUpdate.id) {
+                        item = action.payload.entityUpdate;
                     }
                     return item;
                 })

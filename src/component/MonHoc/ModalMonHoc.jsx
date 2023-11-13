@@ -1,62 +1,46 @@
 import { Button, Col, Form, Image, Input, Modal, notification, Row, Select } from "antd"
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { createProduct, showModal, updateProduct } from "../../redux/reducers/product.slice";
-import UploadImage from "../../commons/UploadImage";
-import { apiDeleteImageProduct } from "../../api/productApi";
+import { create, showModal, update, } from "../../redux/reducers/monhoc.slice";
 
 const ModalMonHoc = () => {
     const [form] = Form.useForm();
-    const [image, setImage] = useState("");
-    const [imageId, setImageId] = useState("");
     const [key, setKey] = useState(Math.random());
 
-    const open = useSelector((state) => state.productReducer.showModal)
-    const { isUpdate, currentProduct } = useSelector((state) => state.productReducer)
+    const open = useSelector((state) => state.monHocReducer.showModal)
+    const { isUpdate, currentEntity } = useSelector((state) => state.monHocReducer)
+    const { chuyennganh } = useSelector((state) => state.chuyenNganhReducer)
     const dispatch = useDispatch()
 
+    const options = chuyennganh.reduce((prev, item) => [...prev, { value: item.id, label: item.ten }], [])
+
     useEffect(() => {
-        if (currentProduct) {
+        console.log('currentEntity', currentEntity)
+        if (currentEntity) {
             form.setFieldsValue({
-                name: currentProduct.name,
-                price: currentProduct.price,
-                desc: currentProduct.desc,
-                shortDesc: currentProduct.shortDesc,
-                category: currentProduct.category,
+                ten: currentEntity.ten,
+                soTc: currentEntity.soTc,
+                chuyennganh: currentEntity?.chuyenNganh?.ten
             })
-            setImage(currentProduct.image)
-            setImageId(currentProduct.imageId)
         }
-    }, [currentProduct])
+    }, [currentEntity])
 
     const onHandleSubmit = (values) => {
-        const product = {
-            name: values.name,
-            desc: values.desc,
-            shortDesc: values.shortDesc,
-            category: values.category,
-            price: values.price,
-            image: image,
-            imageId: imageId
+        const entity = {
+            ten: values.ten,
+            soTc: +values.soTc,
+            idChuyenNganh: values.chuyennganh
         }
 
         if (isUpdate) {
-            dispatch(updateProduct({ product: { _id: currentProduct._id, ...product }, showModal: false }))
+            dispatch(update({ entity: { id: currentEntity.id, ...entity }, showModal: false }))
         } else {
-            dispatch(createProduct({ product, showModal: false }))
+            dispatch(create({ entity, showModal: false }))
         }
 
         notification.success({ message: `${isUpdate ? "Cập nhật" : "Thêm mới"} thành công!` })
         form.resetFields();
-        setImage('');
-        setImageId("");
     }
-
-    // const handleRemoveImage = useCallback(async () => {
-    //     await apiDeleteImageProduct(imageId);
-    //     setImage("");
-    //     setImageId("");
-    // }, [imageId])
 
     const layout = {
         labelCol: {
@@ -81,9 +65,7 @@ const ModalMonHoc = () => {
                 open={open}
                 footer={null}
                 onCancel={() => {
-                    isUpdate ? dispatch(showModal({ showModal: false, isUpdate: false, currentProduct: {} })) : dispatch(showModal({ showModal: false }));
-                    setImage('');
-                    setImageId("");
+                    isUpdate ? dispatch(showModal({ showModal: false, isUpdate: false, currentEntity: {} })) : dispatch(showModal({ showModal: false }));
                     setKey(Math.random());
                     form.resetFields();
                 }}
@@ -96,12 +78,12 @@ const ModalMonHoc = () => {
                 >
                     <Row gutter={[8, 8]}>
                         <Col span={24} md={12} sm={24}>
-                            <Form.Item name="name" label="Tên" {...layout}>
+                            <Form.Item name="ten" label="Tên" {...layout}>
                                 <Input />
                             </Form.Item>
                         </Col>
                         <Col span={24} md={12} sm={24}>
-                            <Form.Item name="tinchi" label="Số tín chỉ" {...layout}>
+                            <Form.Item name="soTc" label="Số tín chỉ" {...layout}>
                                 <Input />
                             </Form.Item>
                         </Col>
@@ -109,11 +91,7 @@ const ModalMonHoc = () => {
                             <Form.Item name="chuyennganh" label="Chuyên ngành" {...layout}>
                                 <Select
                                     name="chuyennganh"
-                                    options={[
-                                        { value: 1, label: 'Thời trang' },
-                                        { value: 2, label: 'Nhạc cụ' },
-                                        { value: 3, label: 'Áp phích' },
-                                    ]}
+                                    options={options}
                                 />
                             </Form.Item>
                         </Col>

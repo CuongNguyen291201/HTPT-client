@@ -6,20 +6,26 @@ export const apiGetChuyenNganh = async () => {
     return data;
 }
 
+export const apiGetChuyenNganhById = async (entity) => {
+    const { data, status } = await POST_API("chuyen-nganh/get-by-id", { ...entity });
+    if (status !== 200) return [];
+    return data;
+}
+
 export const apiCreateChuyenNganh = async (entity) => {
-    const { data, status } = await POST_API("chuyen-nganh/create", { entity: entity });
+    const { data, status } = await POST_API("chuyen-nganh/create", { ...entity });
     if (status !== 200) return [];
     return data;
 }
 
 export const apiUpdateChuyenNganh = async (entity) => {
-    const { data, status } = await PUT_API("chuyen-nganh/update", { entity: entity });
+    const { data, status } = await PUT_API("chuyen-nganh/update", { ...entity });
     if (status !== 200) return [];
     return data;
 }
 
-export const apiDeleteChuyenNganh = async (id) => {
-    const { data, status } = await DELETE_API("chuyen-nganh/delete", { id: id });
+export const apiDeleteChuyenNganh = async (entity) => {
+    const { data, status } = await DELETE_API("chuyen-nganh/delete", { ...entity });
     if (status !== 200) return [];
     return data;
 }

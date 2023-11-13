@@ -18,12 +18,12 @@ import DangKyMonHoc from './page/DangKyMonHoc';
 
 function App() {
     const dispatch = useDispatch();
-    const { _id, role, refresh_token } = useSelector((state) => state.userReducer)
+    // const { _id, role, refresh_token } = useSelector((state) => state.userReducer)
 
-    useEffect(() => {
-        let _token = refresh_token || Cookies.get('token');
-        dispatch(userRefeshToken(_token));
-    }, [])
+    // useEffect(() => {
+    //     let _token = refresh_token || Cookies.get('token');
+    //     dispatch(userRefeshToken(_token));
+    // }, [])
 
     return (
         <>
@@ -41,9 +41,8 @@ function App() {
                     <Route path="dang-ky-mon-hoc" element={<DangKyMonHoc />} />
                 </Route>
 
-                {_id && role && <Route path="/admin">
-                    {/* <Route path="product" element={<Product />} /> */}
-                </Route>}
+                {/* {_id && role && <Route path="/admin">
+                </Route>} */}
             </Routes>
         </>
     );

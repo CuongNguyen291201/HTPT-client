@@ -6,20 +6,26 @@ export const apiGetLopHocPhan = async () => {
     return data;
 }
 
+export const apiGetLopHocPhanById = async (entity) => {
+    const { data, status } = await POST_API("lop-hoc-phan/get-by-id", { ...entity });
+    if (status !== 200) return [];
+    return data;
+}
+
 export const apiCreateLopHocPhan = async (entity) => {
-    const { data, status } = await POST_API("lop-hoc-phan/create", { entity: entity });
+    const { data, status } = await POST_API("lop-hoc-phan/create", { ...entity });
     if (status !== 200) return [];
     return data;
 }
 
 export const apiUpdateLopHocPhan = async (entity) => {
-    const { data, status } = await PUT_API("lop-hoc-phan/update", { entity: entity });
+    const { data, status } = await PUT_API("lop-hoc-phan/update", { ...entity });
     if (status !== 200) return [];
     return data;
 }
 
-export const apiDeleteLopHocPhan = async (id) => {
-    const { data, status } = await DELETE_API("lop-hoc-phan/delete", { id: id });
+export const apiDeleteLopHocPhan = async (entity) => {
+    const { data, status } = await DELETE_API("lop-hoc-phan/delete", { ...entity });
     if (status !== 200) return [];
     return data;
 }

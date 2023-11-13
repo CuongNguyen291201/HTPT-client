@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteProduct, fetchProduct, showModal } from '../../redux/reducers/product.slice';
 import { Button, Card, Col, Popconfirm, Row, Table } from 'antd';
 import './style.scss';
 import SecondNav from '../MainLayout/SecondNav';
+import { fetchDataLH } from '../../redux/reducers/lichhoc.slice';
 
 const ListLichHoc = () => {
     const dispatch = useDispatch();
-    const { products } = useSelector((state) => state.productReducer)
+    const { lichhoc } = useSelector((state) => state.lichHocReducer)
 
     useEffect(() => {
-        dispatch(fetchProduct());
+        dispatch(fetchDataLH());
     }, [])
 
     return (
@@ -24,7 +24,7 @@ const ListLichHoc = () => {
                         className="product"
                         bodyStyle={{ height: 'calc(100vh - 150px)', overflow: 'auto' }}
                     >
-                        <Table dataSource={products} size="middle" pagination={false}>
+                        <Table dataSource={lichhoc} size="middle" pagination={false}>
                             <Table.Column title="ID" dataIndex="id" />
                             <Table.Column title="Thứ" dataIndex="thu" />
                             <Table.Column title="Kíp" dataIndex="kip" />

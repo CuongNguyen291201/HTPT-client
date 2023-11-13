@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProduct } from '../../redux/reducers/product.slice';
 import { Card, Checkbox, Col, Row, Table } from 'antd';
 import './style.scss';
 import SecondNav from '../MainLayout/SecondNav';
@@ -10,7 +9,7 @@ const ListDangKyMonHoc = () => {
     const { products } = useSelector((state) => state.productReducer)
 
     useEffect(() => {
-        dispatch(fetchProduct());
+
     }, [])
 
     return (
@@ -31,7 +30,7 @@ const ListDangKyMonHoc = () => {
                             <Table.Column title="Số SV tối đa" dataIndex="svtoida" />
                             <Table.Column title="Môn học" dataIndex="monhoc" />
                             <Table.Column title="Chi nhánh" dataIndex="chinhanh" />
-                            <Table.Column title="" render={(_, product) => <Checkbox onChange={() => {}}>Checkbox</Checkbox>} />
+                            <Table.Column title="" render={(_, entity) => <Checkbox onChange={() => {}}>Checkbox</Checkbox>} />
                             
                         </Table>
                     </Card>
