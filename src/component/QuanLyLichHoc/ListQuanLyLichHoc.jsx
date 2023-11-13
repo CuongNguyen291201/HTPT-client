@@ -32,8 +32,8 @@ const ListQuanLyLichHoc = () => {
                             <Table.Column title="Thứ" dataIndex="thu" />
                             <Table.Column title="Kíp" dataIndex="kip" />
                             <Table.Column title="Phòng" dataIndex="phong" />
-                            <Table.Column title="Giảng viên" dataIndex="giangvien" />
-                            <Table.Column title="Lớp học phần" dataIndex="lophocphan" />
+                            <Table.Column title="Giảng viên" dataIndex="giangVien" render={(_, entity) => <span>{entity?.giangVien?.ten}</span>} />
+                            <Table.Column title="Lớp học phần" dataIndex="lopHocPhan" render={(_, entity) => <span>{entity?.lopHocPhan?.ten}</span>} />
                             <Table.Column title="Sửa" render={(_, entity) => <Button onClick={() => { dispatch(showModal({ showModal: true, isUpdate: true, currentEntity: entity })) }}>Cập nhật</Button>} />
                             <Table.Column title="Xóa" render={(_, entity) =>
                                 <Popconfirm

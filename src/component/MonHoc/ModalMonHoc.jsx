@@ -15,7 +15,6 @@ const ModalMonHoc = () => {
     const options = chuyennganh.reduce((prev, item) => [...prev, { value: item.id, label: item.ten }], [])
 
     useEffect(() => {
-        console.log('currentEntity', currentEntity)
         if (currentEntity) {
             form.setFieldsValue({
                 ten: currentEntity.ten,

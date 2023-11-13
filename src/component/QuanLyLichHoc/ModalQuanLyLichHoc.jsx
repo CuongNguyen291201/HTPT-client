@@ -5,37 +5,37 @@ import { create, showModal, update } from "../../redux/reducers/lichhoc.slice";
 
 const ModalQuanLyLichHoc = () => {
     const [form] = Form.useForm();
-    const [image, setImage] = useState("");
-    const [imageId, setImageId] = useState("");
     const [key, setKey] = useState(Math.random());
 
     const open = useSelector((state) => state.lichHocReducer.showModal)
     const { isUpdate, currentEntity } = useSelector((state) => state.lichHocReducer)
     const dispatch = useDispatch()
 
+    const { giangvien } = useSelector((state) => state.giangVienReducer)
+    const { lophocphan } = useSelector((state) => state.lopHocPhanReducer)
+
+    const optionGV = giangvien.reduce((prev, item) => [...prev, { value: item.id, label: item.ten }], []);
+    const optionLHP = lophocphan.reduce((prev, item) => [...prev, { value: item.id, label: item.ten }], []);
+
     useEffect(() => {
         if (currentEntity) {
             form.setFieldsValue({
-                name: currentEntity.name,
-                price: currentEntity.price,
-                desc: currentEntity.desc,
-                shortDesc: currentEntity.shortDesc,
-                category: currentEntity.category,
+                thu: currentEntity.thu,
+                kip: currentEntity.kip,
+                phong: currentEntity.phong,
+                giangVien: currentEntity?.giangVien?.id,
+                lopHocPhan: currentEntity?.lopHocPhan?.id
             })
-            // setImage(currentEntity.image)
-            // setImageId(currentEntity.imageId)
         }
     }, [currentEntity])
 
     const onHandleSubmit = (values) => {
         const entity = {
-            name: values.name,
-            desc: values.desc,
-            shortDesc: values.shortDesc,
-            category: values.category,
-            price: values.price,
-            image: image,
-            imageId: imageId
+            thu: values.thu,
+            kip: values.kip,
+            phong: values.phong,
+            giangVien: +values?.giangVien,
+            lopHocPhan: +values?.lopHocPhan
         }
 
         if (isUpdate) {
@@ -46,15 +46,7 @@ const ModalQuanLyLichHoc = () => {
 
         notification.success({ message: `${isUpdate ? "Cập nhật" : "Thêm mới"} thành công!` })
         form.resetFields();
-        // setImage('');
-        // setImageId("");
     }
-
-    // const handleRemoveImage = useCallback(async () => {
-    //     await apiDeleteImageProduct(imageId);
-    //     setImage("");
-    //     setImageId("");
-    // }, [imageId])
 
     const layout = {
         labelCol: {
@@ -80,8 +72,6 @@ const ModalQuanLyLichHoc = () => {
                 footer={null}
                 onCancel={() => {
                     isUpdate ? dispatch(showModal({ showModal: false, isUpdate: false, currentEntity: {} })) : dispatch(showModal({ showModal: false }));
-                    // setImage('');
-                    // setImageId("");
                     setKey(Math.random());
                     form.resetFields();
                 }}
@@ -112,27 +102,19 @@ const ModalQuanLyLichHoc = () => {
                         </Col>
 
                         <Col span={24} md={12} sm={24}>
-                            <Form.Item name="giangvien" label="Giảng viên" {...layout}>
+                            <Form.Item name="giangVien" label="Giảng viên" {...layout}>
                                 <Select
-                                    name="monhoc"
-                                    options={[
-                                        { value: 1, label: 'Thời trang' },
-                                        { value: 2, label: 'Nhạc cụ' },
-                                        { value: 3, label: 'Áp phích' },
-                                    ]}
+                                    name="giangVien"
+                                    options={optionGV}
                                 />
                             </Form.Item>
                         </Col>
-                        
+
                         <Col span={24} md={12} sm={24}>
-                            <Form.Item name="lophocphan" label="Lớp học phần" {...layout}>
+                            <Form.Item name="lopHocPhan" label="Lớp học phần" {...layout}>
                                 <Select
-                                    name="lophocphan"
-                                    options={[
-                                        { value: 1, label: 'Thời trang' },
-                                        { value: 2, label: 'Nhạc cụ' },
-                                        { value: 3, label: 'Áp phích' },
-                                    ]}
+                                    name="lopHocPhan"
+                                    options={optionLHP}
                                 />
                             </Form.Item>
                         </Col>

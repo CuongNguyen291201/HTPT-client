@@ -3,14 +3,26 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Card, Checkbox, Col, Row, Table } from 'antd';
 import './style.scss';
 import SecondNav from '../MainLayout/SecondNav';
+import { create, deleteData, fetchDataDK } from '../../redux/reducers/dangky.slice';
+import { fetchDataLH } from '../../redux/reducers/lichhoc.slice';
 
 const ListDangKyMonHoc = () => {
     const dispatch = useDispatch();
-    const { products } = useSelector((state) => state.productReducer)
+    // const { dangky } = useSelector(state => state.dangKyReducer);
+    const { lichhoc } = useSelector(state => state.lichHocReducer);
 
     useEffect(() => {
-
+        // dispatch(fetchDataDK());
+        dispatch(fetchDataLH());
     }, [])
+
+    const handleDK = (e, entity) => {
+        if (e.target.checked) {
+            dispatch(create(entity));
+        } else {
+            dispatch(deleteData(entity));
+        }
+    }
 
     return (
         <div className='list-mon-hoc'>
@@ -23,15 +35,14 @@ const ListDangKyMonHoc = () => {
                         className="product"
                         bodyStyle={{ height: 'calc(100vh - 150px)', overflow: 'auto' }}
                     >
-                        <Table dataSource={products} size="middle" pagination={false}>
+                        <Table dataSource={lichhoc} size="middle" pagination={false}>
                             <Table.Column title="ID" dataIndex="id" />
-                            <Table.Column title="Năm học" dataIndex="namhoc" />
-                            <Table.Column title="Học kỳ" dataIndex="hocky" />
-                            <Table.Column title="Số SV tối đa" dataIndex="svtoida" />
-                            <Table.Column title="Môn học" dataIndex="monhoc" />
+                            <Table.Column title="Năm học" dataIndex="namHoc" />
+                            <Table.Column title="Học kỳ" dataIndex="hocKy" />
+                            <Table.Column title="Số SV tối đa" dataIndex="svToiDa" />
+                            <Table.Column title="Môn học" dataIndex="monhoc" render={(_, entity) => <span>{entity?.monHoc}</span>} />
                             <Table.Column title="Chi nhánh" dataIndex="chinhanh" />
-                            <Table.Column title="" render={(_, entity) => <Checkbox onChange={() => {}}>Checkbox</Checkbox>} />
-                            
+                            <Table.Column title="" render={(_, entity) => <Checkbox onChange={(e) => handleDK(e, entity)}>Checkbox</Checkbox>} />
                         </Table>
                     </Card>
                 </Col>

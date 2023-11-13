@@ -6,26 +6,26 @@ export const apiGetLichHoc = async () => {
     return data;
 }
 
-export const apiGetDangKyById = async (entity) => {
-    const { data, status } = await POST_API("lich-hoc/get-by-id", { entity: entity });
-    if (status !== 200) return [];
-    return data;
-}
+// export const apiGetDangKyById = async (entity) => {
+//     const { data, status } = await POST_API("lich-hoc/get-by-id", { ...entity });
+//     if (status !== 200) return [];
+//     return data;
+// }
 
 export const apiCreateLichHoc = async (entity) => {
-    const { data, status } = await POST_API("lich-hoc/create", { entity: entity });
+    const { data, status } = await POST_API("lich-hoc/create", { ...entity });
     if (status !== 200) return [];
     return data;
 }
 
 export const apiUpdateLichHoc = async (entity) => {
-    const { data, status } = await PUT_API("lich-hoc/update", { entity: entity });
+    const { data, status } = await PUT_API("lich-hoc/update", { ...entity });
     if (status !== 200) return [];
     return data;
 }
 
 export const apiDeleteLichHoc = async (entity) => {
-    const { data, status } = await DELETE_API("lich-hoc/delete", { entity: entity });
+    const { data, status } = await DELETE_API("lich-hoc/delete", { ...entity });
     if (status !== 200) return [];
     return data;
 }
