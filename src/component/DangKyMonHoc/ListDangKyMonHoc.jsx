@@ -40,8 +40,8 @@ const ListDangKyMonHoc = () => {
                             <Table.Column title="Năm học" dataIndex="namHoc" />
                             <Table.Column title="Học kỳ" dataIndex="hocKy" />
                             <Table.Column title="Số SV tối đa" dataIndex="svToiDa" />
-                            <Table.Column title="Môn học" dataIndex="monhoc" render={(_, entity) => <span>{entity?.monHoc}</span>} />
-                            <Table.Column title="Chi nhánh" dataIndex="chinhanh" />
+                            <Table.Column title="Môn học" dataIndex="monHoc" render={(_, entity) => <span>{entity?.monHoc.ten}</span>} />
+                            <Table.Column title="Chi nhánh" dataIndex="chiNhanh" render={(_, entity) => <span>{entity?.chiNhanh.ten}</span>} />
                             <Table.Column title="" render={(_, entity) => <Checkbox onChange={(e) => handleDK(e, entity)}>Checkbox</Checkbox>} />
                         </Table>
                     </Card>

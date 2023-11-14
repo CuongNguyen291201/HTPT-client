@@ -1,9 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { apiGetGiangVien } from "../../api/giangVienApi";
-import { apiGetQuanLy } from "../../api/quanLyApi";
+import { apiGetQuanLy, apiQLLogin } from "../../api/quanLyApi";
 
 const initEntityState = {
-    quanly: [],
+    quanly: {},
     currentEntity: {},
     showModal: false,
     isUpdate: false
@@ -14,14 +13,14 @@ export const fetchDataQL = createAsyncThunk("quanly/fetchDataQL", async () => {
     return entity;
 })
 
-// export const loginQL = createAsyncThunk("quanly/loginQL", async (args) => {
-//     const { entity, showModal } = args;
-//     const _entity = await apiQLLogin(entity);
-//     return {
-//         _entity,
-//         showModal
-//     };
-// })
+export const loginQL = createAsyncThunk("quanly/loginQL", async (args) => {
+    const { entity, showModal } = args;
+    const _entity = await apiQLLogin(entity);
+    return {
+        _entity,
+        showModal
+    };
+})
 
 
 export const quanLySlice = createSlice({
@@ -39,11 +38,10 @@ export const quanLySlice = createSlice({
             .addCase(fetchDataQL.fulfilled, (state, action) => {
                 state.quanly = action.payload 
             })
-            // .addCase(loginQL.fulfilled, (state, action) => {
-            //     const newData = [...state.quanly, action.payload._entity]
-            //     state.quanly = newData
-            //     state.showModal = action.payload.showModal
-            // })
+            .addCase(loginQL.fulfilled, (state, action) => {
+                const newData = action.payload._entity
+                state.quanly = newData
+            })
     }
 });
 

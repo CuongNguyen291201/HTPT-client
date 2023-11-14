@@ -1,26 +1,26 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { apiGetGiangVien } from "../../api/giangVienApi";
+import { apiGetSinhVien, apiSVLogin } from "../../api/sinhVienApi";
 
 const initEntityState = {
-    sinhvien: [],
+    sinhvien: {},
     currentEntity: {},
     showModal: false,
     isUpdate: false
 }
 
 export const fetchDataSV = createAsyncThunk("sinhvien/fetchDataSV", async () => {
-    const entity = await apiGetGiangVien();
+    const entity = await apiGetSinhVien();
     return entity;
 })
 
-// export const loginGV = createAsyncThunk("sinhvien/loginGV", async (args) => {
-//     const { entity, showModal } = args;
-//     const _entity = await apiGVLogin(entity);
-//     return {
-//         _entity,
-//         showModal
-//     };
-// })
+export const loginGV = createAsyncThunk("sinhvien/loginGV", async (args) => {
+    const { entity, showModal } = args;
+    const _entity = await apiSVLogin(entity);
+    return {
+        _entity,
+        showModal
+    };
+})
 
 
 export const sinhVienSlice = createSlice({
@@ -38,11 +38,10 @@ export const sinhVienSlice = createSlice({
             .addCase(fetchDataSV.fulfilled, (state, action) => {
                 state.sinhvien = action.payload 
             })
-            // .addCase(loginGV.fulfilled, (state, action) => {
-            //     const newData = [...state.sinhvien, action.payload._entity]
-            //     state.sinhvien = newData
-            //     state.showModal = action.payload.showModal
-            // })
+            .addCase(loginGV.fulfilled, (state, action) => {
+                const newData = action.payload._entity
+                state.sinhvien = newData
+            })
     }
 });
 
