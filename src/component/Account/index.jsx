@@ -1,7 +1,7 @@
 import { EnvironmentOutlined, MailOutlined, MobileOutlined, UserOutlined } from '@ant-design/icons'
 import { Button, Col, Form, Input, Row, Table } from 'antd'
 import Cookies from 'js-cookie'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { apiUpdateUserInfo, apiUserLogout } from '../../api/userApi'
@@ -14,8 +14,11 @@ import moment from 'moment'
 const Account = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { role, address, name, email, phone, _id } = useSelector((state) => state.userReducer)
-    const { orderByUser } = useSelector((state) => state.orderReducer)
+
+    const [user, setUser] = useState(JSON.parse(Cookies.get('user')))
+
+    // const { role, address, name, email, phone, _id } = useSelector((state) => state.userReducer)
+    // const { orderByUser } = useSelector((state) => state.orderReducer)
 
     // useEffect(() => {
     //     dispatch(getOrderByUser(_id));
@@ -29,12 +32,14 @@ const Account = () => {
     // }
 
     const handleLogout = async () => {
-        Cookies.remove('token');
-        const data = await apiUserLogout();
-        if (data) {
-            dispatch(logoutUser());
-            navigate('/')
-        }
+        Cookies.remove('user');
+        navigate('/')
+
+        // const data = await apiUserLogout();
+        // if (data) {
+        //     dispatch(logoutUser());
+        //     navigate('/')
+        // }
     }
 
     return (
@@ -52,66 +57,34 @@ const Account = () => {
                                     initialValues={{
                                         remember: true,
                                     }}
-                                    fields={[
-                                        {
-                                            name: ["email"],
-                                            value: email,
-                                        },
-                                        {
-                                            name: ["phone"],
-                                            value: phone
-                                        },
-                                        {
-                                            name: ["address"],
-                                            value: address
-                                        },
-                                        {
-                                            name: ["name"],
-                                            value: name
-                                        }
-                                    ]}
-                                    // onFinish={onFinish}
+                                // onFinish={onFinish}
                                 >
                                     <Row justify="space-around" gutter={[8, 8]}>
                                         <Col sm={24} lg={12}>
                                             <Form.Item name="name">
-                                                <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Tên" />
+                                                <span>Tên: {user.ten}</span>
                                             </Form.Item>
                                             <Form.Item name="email">
-                                                <Input disabled={true} prefix={<MailOutlined className="site-form-item-icon" />} placeholder="Email" />
+                                                <span>Email: {user.email}</span>
                                             </Form.Item>
                                         </Col>
 
                                         <Col sm={24} lg={12}>
                                             <Form.Item name="address">
-                                                <Input prefix={<EnvironmentOutlined className="site-form-item-icon" />} placeholder="Địa chỉ" />
+                                                <span>Ngày sinh: {user.ngaySinh}</span>
                                             </Form.Item>
                                             <Form.Item
                                                 name="phone"
-                                                rules={[
-                                                    {
-                                                        required: true,
-                                                        message: 'Hãy nhập đầy đủ thông tin',
-                                                    },
-                                                ]}
                                             >
-                                                <Input prefix={<MobileOutlined className="site-form-item-icon" />} placeholder="Điện thoại" />
+                                                <span>Chi nhánh: {user.chiNhanh.ten}</span>
                                             </Form.Item>
                                         </Col>
                                     </Row>
-
-                                    {/* <Form.Item>
-                                        <Button type="primary" htmlType="submit" className="login-form-button">
-                                            Cập nhật
-                                        </Button>
-                                    </Form.Item> */}
                                 </Form>
                             </Col>
                         </Row>
 
                         <div className="logout" onClick={() => handleLogout()}>Đăng xuất</div>
-
-                        {role ? <div className="logout" onClick={() => navigate('/admin/product')}>Quản lý site</div> : <></>}
 
                     </div>
                 </div>

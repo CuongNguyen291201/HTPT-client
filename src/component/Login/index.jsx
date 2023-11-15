@@ -4,7 +4,6 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import './style.scss'
 import Cookies from 'js-cookie';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUser } from '../../redux/reducers/user.slice';
 import { apiUserLogin } from '../../api/userApi';
 import { useNavigate } from 'react-router';
 import useAuth from '../../hook/UseAuth';
@@ -12,19 +11,28 @@ import useAuth from '../../hook/UseAuth';
 const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { email } = useSelector((state) => state.userReducer)
+    // const { email } = useSelector((state) => state.userReducer)
 
-    useAuth({ authen: email ? "/" : false, unAuthen: false })
+    // useAuth({ authen: email ? "/" : false, unAuthen: false })
 
     const onFinish = async (values) => {
-        const { _user, access_token, refresh_token } = await apiUserLogin(values);
-        if (_user) {
-            Cookies.set('token', refresh_token, { expires: 7 });
-            dispatch(loginUser({ _user, access_token, refresh_token }))
+        const entity = await apiUserLogin(values);
+        if (entity && entity.id) {
+            Cookies.set('user', JSON.stringify(entity), { expires: 1 });
             navigate('/')
         } else {
             notification.error({ message: "Tài khoản hoặc mật khẩu không đúng, bạn hãy kiểm tra lại!!" });
         }
+
+        console.log('entity', entity)
+       
+        // if (_user) {
+        //     Cookies.set('token', refresh_token, { expires: 7 });
+        //     dispatch(loginUser({ _user, access_token, refresh_token }))
+        //     navigate('/')
+        // } else {
+        //     notification.error({ message: "Tài khoản hoặc mật khẩu không đúng, bạn hãy kiểm tra lại!!" });
+        // }
     };
 
     return (
@@ -68,7 +76,6 @@ const Login = () => {
                     <Button type="primary" htmlType="submit" className="login-form-button">
                         Đăng nhập
                     </Button>
-                    Hoặc <a href="/register">đăng ký ngay!</a>
                 </Form.Item>
             </Form>
 

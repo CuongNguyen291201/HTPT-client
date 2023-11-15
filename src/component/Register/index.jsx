@@ -18,14 +18,14 @@ const Register = () => {
     useAuth({ authen: email ? "/" : false, unAuthen: false })
 
     const onFinish = async (values) => {
-        const { _user, access_token, refresh_token } = await apiUserRegister(values);
-        if (_user) {
-            Cookies.set('token', refresh_token, { expires: 7 });
-            dispatch(registerUser({ _user, access_token, refresh_token }))
-            navigate('/')
-        } else {
-            notification.error({ message: "Có lỗi, bạn hãy kiểm tra lại!!" });
-        }
+        // const { _user, access_token, refresh_token } = await apiUserRegister(values);
+        // if (_user) {
+        //     Cookies.set('token', refresh_token, { expires: 7 });
+        //     dispatch(registerUser({ _user, access_token, refresh_token }))
+        //     navigate('/')
+        // } else {
+        //     notification.error({ message: "Có lỗi, bạn hãy kiểm tra lại!!" });
+        // }
     };
 
     return (

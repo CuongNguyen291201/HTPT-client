@@ -1,13 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Layout, Row, Col } from 'antd';
 import { GithubOutlined, UserOutlined } from '@ant-design/icons';
 import './style.scss';
 import { useSelector } from 'react-redux';
+import Cookies from 'js-cookie';
 
 const { Header } = Layout;
 
 const MainNav = () => {
-    const { email, cart } = useSelector((state) => state.userReducer)
+    const [user, setUser] = useState(Cookies.get('user') ? JSON.parse(Cookies.get('user')) : {})
 
     return (
         <Header>
@@ -55,7 +56,7 @@ const MainNav = () => {
                 <Col span={2} style={{ textAlign: 'right' }}>
                     <div className="user">
                         <div>
-                            <a href={`${email ? "/profile" : "/login"}`}>
+                            <a href={`${(user && user.email) ? "/profile" : "/login"}`}>
                                 <UserOutlined style={{ fontSize: 25, cursor: 'pointer', color: '#fff' }} />
                             </a>
                         </div>
